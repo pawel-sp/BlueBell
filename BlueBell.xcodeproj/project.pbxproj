@@ -10,6 +10,17 @@
 		A42ADDFF1F4F1CCF00B1DEFC /* BlueBell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A42ADDF51F4F1CCF00B1DEFC /* BlueBell.framework */; };
 		A42ADE041F4F1CCF00B1DEFC /* BlueBellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE031F4F1CCF00B1DEFC /* BlueBellTests.swift */; };
 		A42ADE061F4F1CCF00B1DEFC /* BlueBell.h in Headers */ = {isa = PBXBuildFile; fileRef = A42ADDF81F4F1CCF00B1DEFC /* BlueBell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A42ADE111F4F1D7900B1DEFC /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE101F4F1D7900B1DEFC /* Characteristic.swift */; };
+		A42ADE141F4F1DA700B1DEFC /* PeripheralOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE131F4F1DA700B1DEFC /* PeripheralOperation.swift */; };
+		A42ADE161F4F1DC300B1DEFC /* PeripheralCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE151F4F1DC300B1DEFC /* PeripheralCommand.swift */; };
+		A42ADE181F4F1DD100B1DEFC /* PeripheralSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE171F4F1DD100B1DEFC /* PeripheralSubscription.swift */; };
+		A42ADE1D1F4F1E4A00B1DEFC /* PeripheralClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE1C1F4F1E4A00B1DEFC /* PeripheralClient.swift */; };
+		A42ADE1F1F50149C00B1DEFC /* PeripheralClient+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE1E1F50149C00B1DEFC /* PeripheralClient+Request.swift */; };
+		A42ADE211F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE201F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift */; };
+		A42ADE231F5014B200B1DEFC /* PeripheralClient+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */; };
+		A42ADE251F5014BD00B1DEFC /* PeripheralClient+Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */; };
+		A42ADE271F5014C900B1DEFC /* PeripheralClient+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */; };
+		A42ADE281F5015C200B1DEFC /* CharacteristicDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE191F4F1E0200B1DEFC /* CharacteristicDataTransformer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +40,17 @@
 		A42ADDFE1F4F1CCF00B1DEFC /* BlueBellTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlueBellTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42ADE031F4F1CCF00B1DEFC /* BlueBellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueBellTests.swift; sourceTree = "<group>"; };
 		A42ADE051F4F1CCF00B1DEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A42ADE101F4F1D7900B1DEFC /* Characteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Characteristic.swift; sourceTree = "<group>"; };
+		A42ADE131F4F1DA700B1DEFC /* PeripheralOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralOperation.swift; sourceTree = "<group>"; };
+		A42ADE151F4F1DC300B1DEFC /* PeripheralCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralCommand.swift; sourceTree = "<group>"; };
+		A42ADE171F4F1DD100B1DEFC /* PeripheralSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralSubscription.swift; sourceTree = "<group>"; };
+		A42ADE191F4F1E0200B1DEFC /* CharacteristicDataTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicDataTransformer.swift; sourceTree = "<group>"; };
+		A42ADE1C1F4F1E4A00B1DEFC /* PeripheralClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralClient.swift; sourceTree = "<group>"; };
+		A42ADE1E1F50149C00B1DEFC /* PeripheralClient+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Request.swift"; sourceTree = "<group>"; };
+		A42ADE201F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+RequestQueue.swift"; sourceTree = "<group>"; };
+		A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Notification.swift"; sourceTree = "<group>"; };
+		A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Notifier.swift"; sourceTree = "<group>"; };
+		A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Delegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +93,9 @@
 		A42ADDF71F4F1CCF00B1DEFC /* BlueBell */ = {
 			isa = PBXGroup;
 			children = (
+				A42ADE0F1F4F1D5D00B1DEFC /* Models */,
+				A42ADE121F4F1D8800B1DEFC /* Operations */,
+				A42ADE1B1F4F1E3600B1DEFC /* Client */,
 				A42ADDF81F4F1CCF00B1DEFC /* BlueBell.h */,
 				A42ADDF91F4F1CCF00B1DEFC /* Info.plist */,
 			);
@@ -84,6 +109,38 @@
 				A42ADE051F4F1CCF00B1DEFC /* Info.plist */,
 			);
 			path = BlueBellTests;
+			sourceTree = "<group>";
+		};
+		A42ADE0F1F4F1D5D00B1DEFC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A42ADE101F4F1D7900B1DEFC /* Characteristic.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		A42ADE121F4F1D8800B1DEFC /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				A42ADE131F4F1DA700B1DEFC /* PeripheralOperation.swift */,
+				A42ADE151F4F1DC300B1DEFC /* PeripheralCommand.swift */,
+				A42ADE171F4F1DD100B1DEFC /* PeripheralSubscription.swift */,
+				A42ADE191F4F1E0200B1DEFC /* CharacteristicDataTransformer.swift */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
+		A42ADE1B1F4F1E3600B1DEFC /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				A42ADE1C1F4F1E4A00B1DEFC /* PeripheralClient.swift */,
+				A42ADE1E1F50149C00B1DEFC /* PeripheralClient+Request.swift */,
+				A42ADE201F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift */,
+				A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */,
+				A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */,
+				A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */,
+			);
+			name = Client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +205,7 @@
 				TargetAttributes = {
 					A42ADDF41F4F1CCF00B1DEFC = {
 						CreatedOnToolsVersion = 8.3.3;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					A42ADDFD1F4F1CCF00B1DEFC = {
@@ -196,6 +254,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A42ADE251F5014BD00B1DEFC /* PeripheralClient+Notifier.swift in Sources */,
+				A42ADE181F4F1DD100B1DEFC /* PeripheralSubscription.swift in Sources */,
+				A42ADE281F5015C200B1DEFC /* CharacteristicDataTransformer.swift in Sources */,
+				A42ADE211F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift in Sources */,
+				A42ADE161F4F1DC300B1DEFC /* PeripheralCommand.swift in Sources */,
+				A42ADE111F4F1D7900B1DEFC /* Characteristic.swift in Sources */,
+				A42ADE1F1F50149C00B1DEFC /* PeripheralClient+Request.swift in Sources */,
+				A42ADE1D1F4F1E4A00B1DEFC /* PeripheralClient.swift in Sources */,
+				A42ADE141F4F1DA700B1DEFC /* PeripheralOperation.swift in Sources */,
+				A42ADE271F5014C900B1DEFC /* PeripheralClient+Delegate.swift in Sources */,
+				A42ADE231F5014B200B1DEFC /* PeripheralClient+Notification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,6 +391,7 @@
 		A42ADE0A1F4F1CCF00B1DEFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -333,6 +403,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBell;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -340,6 +411,7 @@
 		A42ADE0B1F4F1CCF00B1DEFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -358,6 +430,7 @@
 		A42ADE0D1F4F1CCF00B1DEFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = BlueBellTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBellTests;
@@ -369,6 +442,7 @@
 		A42ADE0E1F4F1CCF00B1DEFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = BlueBellTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBellTests;
@@ -396,6 +470,7 @@
 				A42ADE0B1F4F1CCF00B1DEFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A42ADE0C1F4F1CCF00B1DEFC /* Build configuration list for PBXNativeTarget "BlueBellTests" */ = {
 			isa = XCConfigurationList;
@@ -404,6 +479,7 @@
 				A42ADE0E1F4F1CCF00B1DEFC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
