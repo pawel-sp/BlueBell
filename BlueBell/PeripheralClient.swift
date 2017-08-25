@@ -15,20 +15,9 @@ class PeripheralClient {
     enum ClientError: Error {
         
         case incorrectCharacteristic
+        // timeout 3 s na jedna paczke
         
     }
-    
-    enum Result<Value> {
-        
-        case empty
-        case value(Value)
-        case error(Error)
-        
-    }
-    
-    // MARK: - Typealiases
-    
-    typealias ResultCompletion<Value> = (Result<Value>) -> ()
     
     // MARK: - Properties
     
@@ -93,12 +82,12 @@ class PeripheralClient {
     }
     
     private func cbCharacteristic(for characteristic: Characteristic) -> CBCharacteristic? {
-        return characteristics.filter({ $0.uuid.uuidString == characteristic.uuidString }).first
+        return characteristics.first(for: characteristic)
     }
     
     private func preparedPeripheralDelegate() -> PeripheralDelegate {
         
-        let didUpdateAction: PeripheralDelegate.Action = { characteristic, error in
+        let didUpdateAction: Completion<CBCharacteristic> = { characteristic, error in
             if error != nil {
                 let request = self.requestQueue.removeFirstRequst(for: characteristic)
                 request?.finish(error: error)
@@ -114,7 +103,7 @@ class PeripheralClient {
             }
         }
         
-        let didWriteAction: PeripheralDelegate.Action = { characteristic, error in
+        let didWriteAction: Completion<CBCharacteristic> = { characteristic, error in
             if error != nil {
                 let request = self.requestQueue.removeFirstRequst(for: characteristic)
                 request?.finish(error: error)

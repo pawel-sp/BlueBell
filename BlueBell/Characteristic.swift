@@ -8,8 +8,6 @@
 
 import Foundation
 
-protocol Characteristic {
-    
-    var uuidString: String { get }
+public protocol Characteristic: BlueModel {
     
 }

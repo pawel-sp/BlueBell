@@ -7,19 +7,57 @@
 //
 
 import UIKit
+import BlueBell
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+}
+
+
+
+
+
+enum LEDCharacteristic: String, Characteristic {
+    
+    case temperature = "UUID"
+    
+    var uuidString: String {
+        return self.rawValue
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    static var all: [Characteristic] {
+        return [
+            LEDCharacteristic.temperature
+        ]
     }
+    
+}
 
+enum LEDService: String, Service {
+    
+    case main = "UUID"
+    
+    var uuidString: String {
+        return self.rawValue
+    }
+    
+    var characteristics: [Characteristic] {
+        return LEDCharacteristic.all
+    }
+    
+    static var all: [Service] {
+        return [
+            LEDService.main
+        ]
+    }
+    
+}
 
+class LEDPeripheral: Peripheral {
+    
+    var services: [Service] {
+        return LEDService.all
+    }
+    
 }
 

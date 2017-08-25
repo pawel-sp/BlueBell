@@ -37,7 +37,7 @@ extension PeripheralClient {
         func firstRequest(for characteristic: CBCharacteristic) -> BaseRequest? {
             var request: BaseRequest?
             queue.sync {
-                request = self.requests[characteristic.uuid.uuidString]?.first
+                request = self.requests[characteristic.uuidString]?.first
             }
             return request
         }
@@ -46,7 +46,7 @@ extension PeripheralClient {
         func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseRequest? {
             var result: BaseRequest?
             queue.async(flags: .barrier) {
-                result = self.requests[characteristic.uuid.uuidString]?.remove(at: 0)
+                result = self.requests[characteristic.uuidString]?.remove(at: 0)
             }
             return result
         }

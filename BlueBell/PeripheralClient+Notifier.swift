@@ -28,11 +28,11 @@ extension PeripheralClient {
         }
         
         func removeNotification(for characteristic: CBCharacteristic) {
-            notifications[characteristic.uuid.uuidString] = nil
+            notifications[characteristic.uuidString] = nil
         }
         
         func notification(for characteristic: CBCharacteristic) -> BaseNotification? {
-            return notifications[characteristic.uuid.uuidString]
+            return notifications[characteristic.uuidString]
         }
         
     }

@@ -12,16 +12,12 @@ extension PeripheralClient {
     
     class PeripheralDelegate: NSObject, CBPeripheralDelegate {
         
-        // MARK: - Typealiases
-        
-        typealias Action = (CBCharacteristic, Error?) -> Void
-        
         // MARK: - Properties
         
-        let didUpdateValue: Action?
-        let didWriteValue: Action?
+        let didUpdateValue: Completion<CBCharacteristic>?
+        let didWriteValue: Completion<CBCharacteristic>?
         
-        init(peripheral: CBPeripheral, didUpdateValue: Action?, didWriteValue: Action?) {
+        init(peripheral: CBPeripheral, didUpdateValue: Completion<CBCharacteristic>?, didWriteValue: Completion<CBCharacteristic>?) {
             self.didUpdateValue = didUpdateValue
             self.didWriteValue  = didWriteValue
             super.init()
