@@ -21,6 +21,7 @@
 		A42ADE251F5014BD00B1DEFC /* PeripheralClient+Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */; };
 		A42ADE271F5014C900B1DEFC /* PeripheralClient+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */; };
 		A42ADE281F5015C200B1DEFC /* CharacteristicDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE191F4F1E0200B1DEFC /* CharacteristicDataTransformer.swift */; };
+		A42ADE2B1F50165E00B1DEFC /* PeripheralsCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE2A1F50165E00B1DEFC /* PeripheralsCentral.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Notification.swift"; sourceTree = "<group>"; };
 		A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Notifier.swift"; sourceTree = "<group>"; };
 		A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Delegate.swift"; sourceTree = "<group>"; };
+		A42ADE2A1F50165E00B1DEFC /* PeripheralsCentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralsCentral.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				A42ADE0F1F4F1D5D00B1DEFC /* Models */,
 				A42ADE121F4F1D8800B1DEFC /* Operations */,
 				A42ADE1B1F4F1E3600B1DEFC /* Client */,
+				A42ADE291F50162900B1DEFC /* Center */,
 				A42ADDF81F4F1CCF00B1DEFC /* BlueBell.h */,
 				A42ADDF91F4F1CCF00B1DEFC /* Info.plist */,
 			);
@@ -141,6 +144,14 @@
 				A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */,
 			);
 			name = Client;
+			sourceTree = "<group>";
+		};
+		A42ADE291F50162900B1DEFC /* Center */ = {
+			isa = PBXGroup;
+			children = (
+				A42ADE2A1F50165E00B1DEFC /* PeripheralsCentral.swift */,
+			);
+			name = Center;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +274,7 @@
 				A42ADE1F1F50149C00B1DEFC /* PeripheralClient+Request.swift in Sources */,
 				A42ADE1D1F4F1E4A00B1DEFC /* PeripheralClient.swift in Sources */,
 				A42ADE141F4F1DA700B1DEFC /* PeripheralOperation.swift in Sources */,
+				A42ADE2B1F50165E00B1DEFC /* PeripheralsCentral.swift in Sources */,
 				A42ADE271F5014C900B1DEFC /* PeripheralClient+Delegate.swift in Sources */,
 				A42ADE231F5014B200B1DEFC /* PeripheralClient+Notification.swift in Sources */,
 			);
