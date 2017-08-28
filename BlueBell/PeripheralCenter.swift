@@ -22,21 +22,21 @@ class PeripheralCenter {
     
     // MARK: - Utilities
     
-    func scan(for peripheral: Peripheral, options: [String : Any]?, update: @escaping BufferCompletion<PeripheralInfo>) {
-        central.scan(for: peripheral, options: options, update: update)
+    func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping BufferCompletion<PeripheralInfo>) {
+        central.scan(for: peripheralInterface, options: options, update: update)
     }
     
     func stopScan() {
         central.stopScan()
     }
 
-    func connect(to peripheralInput: PeripheralInput, options: [String : Any]?, completion: @escaping ResultCompletion<PeripheralClient>) {
-        central.connect(to: peripheralInput.peripheral, options: options) { _ in
-            let discoverer = Discoverer(peripheralInput: peripheralInput)
+    func connect(to cbPeripheral: CBPeripheral, peripheralInterface: Peripheral, options: [String : Any]?, completion: @escaping ResultCompletion<PeripheralClient>) {
+        central.connect(to: cbPeripheral, options: options) { _ in
+            let discoverer = Discoverer(peripheral: cbPeripheral, interface: peripheralInterface)
             discoverer.loadCharacteristics() { result in
                 switch result {
                     case .value(let characteristics):
-                        let client = PeripheralClient(peripheral: peripheralInput.peripheral, characteristics: characteristics)
+                        let client = PeripheralClient(peripheral: cbPeripheral, characteristics: characteristics)
                         completion(Result.value(client))
                     case .error(let error):
                         completion(Result.error(error))

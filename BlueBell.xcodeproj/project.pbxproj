@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A42ADDFF1F4F1CCF00B1DEFC /* BlueBell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A42ADDF51F4F1CCF00B1DEFC /* BlueBell.framework */; };
-		A42ADE041F4F1CCF00B1DEFC /* BlueBellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE031F4F1CCF00B1DEFC /* BlueBellTests.swift */; };
 		A42ADE061F4F1CCF00B1DEFC /* BlueBell.h in Headers */ = {isa = PBXBuildFile; fileRef = A42ADDF81F4F1CCF00B1DEFC /* BlueBell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A42ADE111F4F1D7900B1DEFC /* Characteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE101F4F1D7900B1DEFC /* Characteristic.swift */; };
 		A42ADE141F4F1DA700B1DEFC /* PeripheralOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE131F4F1DA700B1DEFC /* PeripheralOperation.swift */; };
@@ -29,6 +28,12 @@
 		A42ADE661F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE651F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift */; };
 		A42ADE681F505AE300B1DEFC /* BlueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE671F505AE300B1DEFC /* BlueModel.swift */; };
 		A42ADE6B1F505B9000B1DEFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE6A1F505B9000B1DEFC /* Extensions.swift */; };
+		A4F30B341F5432DF0044EB1B /* StubCBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */; };
+		A4F30B3B1F5451B90044EB1B /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B3A1F5451B90044EB1B /* Operators.swift */; };
+		A4F76EFB1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76EFA1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift */; };
+		A4F76EFE1F5417B500A9E515 /* FakeCBCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76EFD1F5417B500A9E515 /* FakeCBCentralManager.swift */; };
+		A4F76F001F541A1A00A9E515 /* StubPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76EFF1F541A1A00A9E515 /* StubPeripheral.swift */; };
+		A4F76F031F5427F300A9E515 /* StubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76F021F5427F300A9E515 /* StubService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +51,6 @@
 		A42ADDF81F4F1CCF00B1DEFC /* BlueBell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueBell.h; sourceTree = "<group>"; };
 		A42ADDF91F4F1CCF00B1DEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A42ADDFE1F4F1CCF00B1DEFC /* BlueBellTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlueBellTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A42ADE031F4F1CCF00B1DEFC /* BlueBellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueBellTests.swift; sourceTree = "<group>"; };
 		A42ADE051F4F1CCF00B1DEFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A42ADE101F4F1D7900B1DEFC /* Characteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Characteristic.swift; sourceTree = "<group>"; };
 		A42ADE131F4F1DA700B1DEFC /* PeripheralOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralOperation.swift; sourceTree = "<group>"; };
@@ -67,6 +71,12 @@
 		A42ADE651F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralCenter+Discoverer.swift"; sourceTree = "<group>"; };
 		A42ADE671F505AE300B1DEFC /* BlueModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueModel.swift; sourceTree = "<group>"; };
 		A42ADE6A1F505B9000B1DEFC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBPeripheral.swift; sourceTree = "<group>"; };
+		A4F30B3A1F5451B90044EB1B /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		A4F76EFA1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralCenter+CentralTests.swift"; sourceTree = "<group>"; };
+		A4F76EFD1F5417B500A9E515 /* FakeCBCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCBCentralManager.swift; sourceTree = "<group>"; };
+		A4F76EFF1F541A1A00A9E515 /* StubPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubPeripheral.swift; sourceTree = "<group>"; };
+		A4F76F021F5427F300A9E515 /* StubService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +133,9 @@
 		A42ADE021F4F1CCF00B1DEFC /* BlueBellTests */ = {
 			isa = PBXGroup;
 			children = (
-				A42ADE031F4F1CCF00B1DEFC /* BlueBellTests.swift */,
+				A4F30B391F5451AE0044EB1B /* Extensions */,
+				A4F76EFC1F5417A400A9E515 /* Mocks, Stubs, Fakes */,
+				A4F76EF91F54098500A9E515 /* Center */,
 				A42ADE051F4F1CCF00B1DEFC /* Info.plist */,
 			);
 			path = BlueBellTests;
@@ -181,6 +193,33 @@
 				A42ADE6A1F505B9000B1DEFC /* Extensions.swift */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		A4F30B391F5451AE0044EB1B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A4F30B3A1F5451B90044EB1B /* Operators.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		A4F76EF91F54098500A9E515 /* Center */ = {
+			isa = PBXGroup;
+			children = (
+				A4F76EFA1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift */,
+			);
+			name = Center;
+			sourceTree = "<group>";
+		};
+		A4F76EFC1F5417A400A9E515 /* Mocks, Stubs, Fakes */ = {
+			isa = PBXGroup;
+			children = (
+				A4F76EFD1F5417B500A9E515 /* FakeCBCentralManager.swift */,
+				A4F76EFF1F541A1A00A9E515 /* StubPeripheral.swift */,
+				A4F76F021F5427F300A9E515 /* StubService.swift */,
+				A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */,
+			);
+			name = "Mocks, Stubs, Fakes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +289,7 @@
 					};
 					A42ADDFD1F4F1CCF00B1DEFC = {
 						CreatedOnToolsVersion = 8.3.3;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -320,7 +360,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A42ADE041F4F1CCF00B1DEFC /* BlueBellTests.swift in Sources */,
+				A4F30B341F5432DF0044EB1B /* StubCBPeripheral.swift in Sources */,
+				A4F76F001F541A1A00A9E515 /* StubPeripheral.swift in Sources */,
+				A4F76EFE1F5417B500A9E515 /* FakeCBCentralManager.swift in Sources */,
+				A4F76EFB1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift in Sources */,
+				A4F76F031F5427F300A9E515 /* StubService.swift in Sources */,
+				A4F30B3B1F5451B90044EB1B /* Operators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,10 +524,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = BlueBellTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBellTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -491,6 +538,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = BlueBellTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBellTests;

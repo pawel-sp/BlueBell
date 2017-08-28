@@ -8,6 +8,8 @@
 
 import CoreBluetooth
 
+// MARK: - Enums
+
 enum Result<Value> {
     
     case empty
@@ -16,9 +18,26 @@ enum Result<Value> {
     
 }
 
+// MARK: - Typealiases
+
 typealias ResultCompletion<Value> = (Result<Value>)  -> ()
 typealias Completion<Value>       = (Value, Error?)  -> ()
 typealias BufferCompletion<Value> = (Value, [Value]) -> ()
 
-typealias PeripheralInfo  = (peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber)
-typealias PeripheralInput = (peripheral: CBPeripheral, interface: Peripheral)
+// MARK: - Structs
+
+struct PeripheralInfo: Hashable, Equatable {
+    
+    let peripheral: CBPeripheral
+    let advertisementData: [String : Any]
+    let rssi: NSNumber
+
+    var hashValue: Int {
+        return peripheral.hashValue
+    }
+    
+    static func ==(lhs: PeripheralInfo, rhs: PeripheralInfo) -> Bool {
+        return lhs.peripheral.uuidString == rhs.peripheral.uuidString
+    }
+    
+}

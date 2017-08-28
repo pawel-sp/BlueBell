@@ -22,9 +22,9 @@ extension PeripheralCenter {
         
         // MARK: - Init
         
-        init(peripheralInput: PeripheralInput) {
-            self.peripheral = peripheralInput.peripheral
-            self.interface  = peripheralInput.interface
+        init(peripheral: CBPeripheral, interface: Peripheral) {
+            self.peripheral = peripheral
+            self.interface  = interface
             super.init()
             peripheral.delegate = self
         }

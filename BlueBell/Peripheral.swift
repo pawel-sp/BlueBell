@@ -6,7 +6,7 @@
 //  Copyright © 2017 Paweł Sporysz. All rights reserved.
 //
 
-import Foundation
+import CoreBluetooth
 
 public protocol Peripheral {
     

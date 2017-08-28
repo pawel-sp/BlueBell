@@ -27,27 +27,36 @@ extension PeripheralCenter {
         private var peripherals: [PeripheralInfo] = []
         private var waitingScanningRequest: (() -> ())?
         private var updateCompletion: BufferCompletion<PeripheralInfo>?
-        private var connectCompletion: ResultCompletion<CBPeripheral>?
+        private var connectCompletions: [CBPeripheral : ResultCompletion<CBPeripheral>] = [:]
         
         // MARK: - Init {
         
-        override init() {
-            centralManager = CBCentralManager(delegate: nil, queue: nil)
+        override convenience init() {
+            self.init(centralManager: CBCentralManager(delegate: nil, queue: nil))
+        }
+        
+        init(centralManager: CBCentralManager) {
+            self.centralManager = centralManager
             super.init()
             centralManager.delegate = self
         }
         
+        deinit {
+            centralManager.delegate = nil
+        }
+        
         // MARK: - Utilities
         
-        func scan(for peripheral: Peripheral, options: [String : Any]?, update: @escaping BufferCompletion<PeripheralInfo>) {
+        func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping BufferCompletion<PeripheralInfo>) {
             if centralManager.isScanning {
-                peripherals.removeAll()
+                stopScan()
+                scan(for: peripheralInterface, options: options, update: update)
             } else if centralManager.state != .poweredOn {
                 waitingScanningRequest = { [weak self] in
-                    self?.scan(for: peripheral, options:options, update: update)
+                    self?.scan(for: peripheralInterface, options:options, update: update)
                 }
             } else {
-                let servicesUUID = peripheral.services.map({ CBUUID(string: $0.uuidString) })
+                let servicesUUID = peripheralInterface.services.map({ CBUUID(string: $0.uuidString) })
                 updateCompletion = update
                 centralManager.scanForPeripherals(withServices: servicesUUID, options: options)
             }
@@ -60,7 +69,7 @@ extension PeripheralCenter {
         }
         
         func connect(to peripheral: CBPeripheral, options: [String : Any]?, completion: @escaping ResultCompletion<CBPeripheral>) {
-            connectCompletion = completion
+            connectCompletions[peripheral] = completion
             centralManager.connect(peripheral, options: options)
         }
         
@@ -77,19 +86,21 @@ extension PeripheralCenter {
         }
         
         func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-            let newPeripheral: PeripheralInfo = (peripheral, advertisementData, RSSI)
-            if !peripherals.contains(where: { $0.peripheral.uuidString == peripheral.identifier.uuidString }) {
-                peripherals.insert(newPeripheral, at: 0)
+            let newPeripheral = PeripheralInfo(peripheral: peripheral, advertisementData: advertisementData, rssi: RSSI)
+            if !peripherals.contains(newPeripheral) {
+                peripherals.append(newPeripheral)
+                updateCompletion?(newPeripheral, peripherals)
             }
-            updateCompletion?(newPeripheral, peripherals)
         }
         
         func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-            connectCompletion?(Result.value(peripheral))
+            connectCompletions[peripheral]?(Result.value(peripheral))
+            connectCompletions[peripheral] = nil
         }
         
         func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-            connectCompletion?(Result.error(error ?? CentralError.failedToConnect))
+            connectCompletions[peripheral]?(Result.error(error ?? CentralError.failedToConnect))
+            connectCompletions[peripheral] = nil
         }
         
     }
