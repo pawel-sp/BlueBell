@@ -12,12 +12,22 @@ class PeripheralCenter {
     
     // MARK: - Properties
 
-    private let central: Central
+    let central: Central
+    let discovererClass: Discoverer.Type
     
     // MARK: - Init
     
-    init() {
-        central = Central()
+    init(central: Central, discovererClass: Discoverer.Type) {
+        self.central         = central
+        self.discovererClass = discovererClass
+    }
+    
+    convenience init(central: Central) {
+        self.init(central: central, discovererClass: Discoverer.self)
+    }
+    
+    convenience init() {
+        self.init(central: Central())
     }
     
     // MARK: - Utilities
@@ -31,18 +41,21 @@ class PeripheralCenter {
     }
 
     func connect(to cbPeripheral: CBPeripheral, peripheralInterface: Peripheral, options: [String : Any]?, completion: @escaping ResultCompletion<PeripheralClient>) {
-        central.connect(to: cbPeripheral, options: options) { _ in
-            let discoverer = Discoverer(peripheral: cbPeripheral, interface: peripheralInterface)
-            discoverer.loadCharacteristics() { result in
-                switch result {
-                    case .value(let characteristics):
-                        let client = PeripheralClient(peripheral: cbPeripheral, characteristics: characteristics)
-                        completion(Result.value(client))
-                    case .error(let error):
-                        completion(Result.error(error))
-                    case .empty:
-                        completion(Result.empty)
+        central.connect(to: cbPeripheral, options: options) { connectResult in
+            switch connectResult {
+                case .value(let value):
+                    let discoverer = self.discovererClass.init(peripheral: value, interface: peripheralInterface)
+                    discoverer.loadCharacteristics() { characteristicsResult in
+                        switch characteristicsResult {
+                            case .value(let characteristics):
+                                let client = PeripheralClient(peripheral: cbPeripheral, characteristics: characteristics)
+                                completion(Result.value(client))
+                            case .error(let error):
+                                completion(Result.error(error))
+                        }
                 }
+                case .error(let error):
+                    completion(Result.error(error))
             }
         }
     }

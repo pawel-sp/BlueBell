@@ -22,7 +22,7 @@ extension PeripheralCenter {
         
         // MARK: - Init
         
-        init(peripheral: CBPeripheral, interface: Peripheral) {
+        required init(peripheral: CBPeripheral, interface: Peripheral) {
             self.peripheral = peripheral
             self.interface  = interface
             super.init()

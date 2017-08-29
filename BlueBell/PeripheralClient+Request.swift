@@ -29,6 +29,14 @@ extension PeripheralClient {
     
     class Request<ValueType>: BaseRequest {
         
+        // MARK: - Enums
+        
+        enum RequestError: Error {
+            
+            case emptyResponse
+            
+        }
+        
         // MARK: - Properties
         
         let command: PeripheralCommand<ValueType>
@@ -64,7 +72,7 @@ extension PeripheralClient {
             if let error = error {
                 completion(Result.error(error))
             } else if updateResponses.isEmpty {
-                completion(Result.empty)
+                completion(Result.error(RequestError.emptyResponse))
             } else {
                 let data = updateResponses.reduce(Data()) { data, nextData in
                     var data = data

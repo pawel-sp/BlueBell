@@ -12,7 +12,6 @@ import CoreBluetooth
 
 enum Result<Value> {
     
-    case empty
     case value(Value)
     case error(Error)
     

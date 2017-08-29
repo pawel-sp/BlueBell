@@ -74,7 +74,7 @@ class PeripheralCenter_DiscovererTests: XCTestCase {
                     XCTAssertTrue(characteristics.contains(where: { $0.uuidString == "D6F0E0BF-7157-4800-BE32-FEB4AEBFFA91" }))
                     XCTAssertEqual(characteristics.count, 3)
                     exp.fulfill()
-                case .empty, .error:
+                case .error:
                     break
             }
         }
@@ -87,7 +87,7 @@ class PeripheralCenter_DiscovererTests: XCTestCase {
         fakeCBPeripheral.discoverServiceError = nserror
         discoverer.loadCharacteristics() { result in
             switch result {
-                case .value, .empty:
+                case .value:
                     break
                 case .error(let error):
                     XCTAssertEqual(error as NSError, nserror)
@@ -103,7 +103,7 @@ class PeripheralCenter_DiscovererTests: XCTestCase {
         fakeCBPeripheral.discoverCharacteristicError = nserror
         discoverer.loadCharacteristics() { result in
             switch result {
-            case .value, .empty:
+            case .value:
                 break
             case .error(let error):
                 XCTAssertEqual(error as NSError, nserror)
@@ -112,8 +112,5 @@ class PeripheralCenter_DiscovererTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
-    
-    // service z errorem
-    // charakterystyka z errorem
     
 }

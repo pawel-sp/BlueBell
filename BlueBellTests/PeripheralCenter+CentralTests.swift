@@ -197,7 +197,7 @@ class PeripheralCenter_CentralTests: XCTestCase {
                 case .value(let peripheral):
                     XCTAssertEqual(peripheral.identifier.uuidString, "89739652-9C94-4989-A196-BFFBB75A3CDE")
                     exp.fulfill()
-                case .error, .empty:
+                case .error:
                     break
             }
         }
@@ -215,8 +215,6 @@ class PeripheralCenter_CentralTests: XCTestCase {
                 case .error(let err):
                     XCTAssertEqual(err as NSError, error)
                     exp.fulfill()
-                case .empty:
-                    break
             }
         }
         waitForExpectations(timeout: 1, handler: nil)
@@ -230,7 +228,7 @@ class PeripheralCenter_CentralTests: XCTestCase {
                 case .value(let peripheral):
                     XCTAssertEqual(peripheral.identifier.uuidString, "89739652-9C94-4989-A196-BFFBB75A3CDE")
                     exp1.fulfill()
-                case .error, .empty:
+                case .error:
                     break
             }
         }
@@ -239,7 +237,7 @@ class PeripheralCenter_CentralTests: XCTestCase {
                 case .value(let peripheral):
                     XCTAssertEqual(peripheral.identifier.uuidString, "A3028452-A053-42C0-B2B7-D9937AFD1F3A")
                     exp2.fulfill()
-                case .error, .empty:
+                case .error:
                     break
             }
         }

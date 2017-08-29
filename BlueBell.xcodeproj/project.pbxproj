@@ -30,6 +30,8 @@
 		A42ADE6B1F505B9000B1DEFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE6A1F505B9000B1DEFC /* Extensions.swift */; };
 		A4A8F2921F559ACF00D99C85 /* StubCBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2911F559ACF00D99C85 /* StubCBService.swift */; };
 		A4A8F2941F55A28800D99C85 /* StubCBCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2931F55A28800D99C85 /* StubCBCharacteristic.swift */; };
+		A4A8F2961F55B1F800D99C85 /* PeripheralCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */; };
+		A4A8F2981F569E3800D99C85 /* FakeCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2971F569E3800D99C85 /* FakeCentral.swift */; };
 		A4F30B341F5432DF0044EB1B /* StubCBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */; };
 		A4F30B3B1F5451B90044EB1B /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B3A1F5451B90044EB1B /* Operators.swift */; };
 		A4F30B3F1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B3E1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift */; };
@@ -39,6 +41,7 @@
 		A4F76EFE1F5417B500A9E515 /* FakeCBCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76EFD1F5417B500A9E515 /* FakeCBCentralManager.swift */; };
 		A4F76F001F541A1A00A9E515 /* StubPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76EFF1F541A1A00A9E515 /* StubPeripheral.swift */; };
 		A4F76F031F5427F300A9E515 /* StubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76F021F5427F300A9E515 /* StubService.swift */; };
+		A4FEB67A1F56ABE800E066A9 /* StubDiscoverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FEB6791F56ABE800E066A9 /* StubDiscoverer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +81,8 @@
 		A42ADE6A1F505B9000B1DEFC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A4A8F2911F559ACF00D99C85 /* StubCBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBService.swift; sourceTree = "<group>"; };
 		A4A8F2931F55A28800D99C85 /* StubCBCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBCharacteristic.swift; sourceTree = "<group>"; };
+		A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralCenterTests.swift; sourceTree = "<group>"; };
+		A4A8F2971F569E3800D99C85 /* FakeCentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCentral.swift; sourceTree = "<group>"; };
 		A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBPeripheral.swift; sourceTree = "<group>"; };
 		A4F30B3A1F5451B90044EB1B /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		A4F30B3E1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralCenter+DiscovererTests.swift"; sourceTree = "<group>"; };
@@ -87,6 +92,7 @@
 		A4F76EFD1F5417B500A9E515 /* FakeCBCentralManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCBCentralManager.swift; sourceTree = "<group>"; };
 		A4F76EFF1F541A1A00A9E515 /* StubPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubPeripheral.swift; sourceTree = "<group>"; };
 		A4F76F021F5427F300A9E515 /* StubService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubService.swift; sourceTree = "<group>"; };
+		A4FEB6791F56ABE800E066A9 /* StubDiscoverer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubDiscoverer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +222,7 @@
 		A4F76EF91F54098500A9E515 /* Center */ = {
 			isa = PBXGroup;
 			children = (
+				A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */,
 				A4F76EFA1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift */,
 				A4F30B3E1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift */,
 			);
@@ -233,6 +240,8 @@
 				A4F76EFF1F541A1A00A9E515 /* StubPeripheral.swift */,
 				A4F76F021F5427F300A9E515 /* StubService.swift */,
 				A4F30B421F556BA60044EB1B /* StubCharacteristic.swift */,
+				A4A8F2971F569E3800D99C85 /* FakeCentral.swift */,
+				A4FEB6791F56ABE800E066A9 /* StubDiscoverer.swift */,
 			);
 			name = "Mocks, Stubs, Fakes";
 			sourceTree = "<group>";
@@ -375,10 +384,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4A8F2961F55B1F800D99C85 /* PeripheralCenterTests.swift in Sources */,
+				A4FEB67A1F56ABE800E066A9 /* StubDiscoverer.swift in Sources */,
 				A4F30B341F5432DF0044EB1B /* StubCBPeripheral.swift in Sources */,
 				A4F30B411F55622E0044EB1B /* FakeCBPeripheral.swift in Sources */,
 				A4F76F001F541A1A00A9E515 /* StubPeripheral.swift in Sources */,
 				A4F30B431F556BA60044EB1B /* StubCharacteristic.swift in Sources */,
+				A4A8F2981F569E3800D99C85 /* FakeCentral.swift in Sources */,
 				A4A8F2921F559ACF00D99C85 /* StubCBService.swift in Sources */,
 				A4F76EFE1F5417B500A9E515 /* FakeCBCentralManager.swift in Sources */,
 				A4F30B3F1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift in Sources */,
