@@ -22,7 +22,7 @@ class PeripheralClient {
     // MARK: - Properties
     
     let peripheral: CBPeripheral
-    let characteristics: [CBCharacteristic]
+    let characteristics: Set<CBCharacteristic>
     
     private let requestQueue = RequestQueue()
     private let notifier     = Notifier()
@@ -30,7 +30,7 @@ class PeripheralClient {
     
     // MARK: - Init
     
-    init(peripheral: CBPeripheral, characteristics: [CBCharacteristic]) {
+    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>) {
         self.peripheral      = peripheral
         self.characteristics = characteristics
     }
@@ -82,7 +82,8 @@ class PeripheralClient {
     }
     
     private func cbCharacteristic(for characteristic: Characteristic) -> CBCharacteristic? {
-        return characteristics.first(for: characteristic)
+        return nil
+        //return characteristics.first(for: characteristic)
     }
     
     private func preparedPeripheralDelegate() -> PeripheralDelegate {

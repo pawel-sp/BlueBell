@@ -17,8 +17,8 @@ extension PeripheralCenter {
         let peripheral: CBPeripheral
         let interface: Peripheral
         
-        private var characteristics: [CBCharacteristic] = [] // Set ?, timeouty?
-        private var completion: ResultCompletion<[CBCharacteristic]>?
+        private var characteristics: Set<CBCharacteristic> = []
+        private var completion: ResultCompletion<Set<CBCharacteristic>>?
         
         // MARK: - Init
         
@@ -29,9 +29,13 @@ extension PeripheralCenter {
             peripheral.delegate = self
         }
         
+        deinit {
+            peripheral.delegate = nil
+        }
+        
         // MARK: - Utilities
         
-        func loadCharacteristics(completion: @escaping ResultCompletion<[CBCharacteristic]>) {
+        func loadCharacteristics(completion: @escaping ResultCompletion<Set<CBCharacteristic>>) {
             let serviceUUIDs = interface.services.map({ $0.cbuuid })
             self.completion  = completion
             peripheral.discoverServices(serviceUUIDs)
@@ -42,6 +46,7 @@ extension PeripheralCenter {
         func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
             if let error = error {
                 completion?(Result.error(error))
+                completion = nil
             } else if let cbServices = peripheral.services?.filter(for: interface) {
                 for cbService in cbServices {
                     if let service = interface.service(for: cbService) {
@@ -55,14 +60,17 @@ extension PeripheralCenter {
         }
         
         func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-            let characteristics = service.characteristics ?? []
-            for characteristic in characteristics {
-                if !self.characteristics.contains(where: { characteristic.uuidString == $0.uuidString }) {
-                    self.characteristics.append(characteristic)
+            if let error = error  {
+                completion?(Result.error(error))
+                completion = nil
+            } else {
+                let characteristics = service.characteristics ?? []
+                for characteristic in characteristics {
+                    self.characteristics.insert(characteristic)
                 }
-            }
-            if interface.characteristicsCount == characteristics.count {
-                completion?(Result.value(characteristics))
+                if interface.characteristicsCount == self.characteristics.count {
+                    completion?(Result.value(self.characteristics))
+                }
             }
         }
         

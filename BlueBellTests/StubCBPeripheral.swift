@@ -13,15 +13,23 @@ class StubCBPeripheral: CBPeripheral {
     // MARK: - Properties
     
     let stubIdentifier: UUID
+    let stubServices: [StubCBService]?
     
-    init(stubIdentifier: UUID) {
+    // MARK: - Init
+    
+    init(stubIdentifier: UUID, stubServices: [StubCBService]? = nil) {
         self.stubIdentifier = stubIdentifier
+        self.stubServices   = stubServices
     }
     
     // MARK: - Overrides
     
     override var identifier: UUID {
         return stubIdentifier
+    }
+    
+    override var services: [CBService]? {
+        return stubServices ?? super.services
     }
     
 }

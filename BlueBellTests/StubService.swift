@@ -11,9 +11,11 @@
 class StubService: Service {
     
     var _uuidString: String
+    var _characteristicUUIDStrings: [String]
     
-    init(_uuidString: String) {
-        self._uuidString = _uuidString
+    init(_uuidString: String, _characteristicUUIDStrings: [String] = []) {
+        self._uuidString                = _uuidString
+        self._characteristicUUIDStrings = _characteristicUUIDStrings
     }
     
     var uuidString: String {
@@ -21,7 +23,7 @@ class StubService: Service {
     }
     
     var characteristics: [Characteristic] {
-        return []
+        return _characteristicUUIDStrings.map({ StubCharacteristic(_uuidString: $0) })
     }
     
 }
