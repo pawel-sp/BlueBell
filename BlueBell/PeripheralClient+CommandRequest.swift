@@ -45,6 +45,7 @@ extension PeripheralClient {
         
         // MARK: - Init
         
+        // Completion contains final data only from update responses.
         init(command: PeripheralCommand<ValueType>, completion: @escaping ResultCompletion<ValueType>) {
             self.command    = command
             self.completion = completion

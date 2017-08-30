@@ -14,7 +14,8 @@ extension PeripheralClient {
         
         // MARK: - Properties
         
-        private var requests: [String : BaseSubscriptionRequest] = [:]
+        private let queue = DispatchQueue(label: "BlueBell.PeripheralClient.SubscriptionRequestQueue", attributes: .concurrent)
+        private var requests: [String : BaseSubscriptionRequest] = [:] // String - UUID of characteristic
         
         // MARK: - Init
         
@@ -23,16 +24,24 @@ extension PeripheralClient {
         // MARK: - Actions
         
         func add(request: BaseSubscriptionRequest) {
-            let characteristicUUID = request.characteristic.uuidString
-            self.requests[characteristicUUID] = request
+            queue.async {
+                let characteristicUUID = request.characteristic.uuidString
+                self.requests[characteristicUUID] = request
+            }
         }
         
         func removeRequest(for characteristic: CBCharacteristic) {
-            requests[characteristic.uuidString] = nil
+            queue.async {
+                self.requests[characteristic.uuidString] = nil
+            }
         }
         
         func request(for characteristic: CBCharacteristic) -> BaseSubscriptionRequest? {
-            return requests[characteristic.uuidString]
+            var result: BaseSubscriptionRequest?
+            queue.sync {
+                result = self.requests[characteristic.uuidString]
+            }
+            return result
         }
         
     }
