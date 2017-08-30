@@ -1,5 +1,5 @@
 //
-//  PeripheralClient+Request.swift
+//  PeripheralClient+CommandRequest.swift
 //  BlueBell
 //
 //  Created by Paweł Sporysz on 25.08.2017.
@@ -8,26 +8,24 @@
 
 import Foundation
 
-enum BaseRequestState {
+enum BaseCommandRequestState {
     
     case inProgress
     case finished
     
 }
 
-protocol BaseRequest {
+protocol BaseCommandRequest: BaseRequest {
     
-    var characteristic: Characteristic { get }
-    
-    func process(update data: Data) -> BaseRequestState
-    func process(write data: Data) -> BaseRequestState
+    func process(update data: Data) -> BaseCommandRequestState
+    func process(write data: Data) -> BaseCommandRequestState
     func finish(error: Error?)
     
 }
 
 extension PeripheralClient {
     
-    class Request<ValueType>: BaseRequest {
+    class CommandRequest<ValueType>: BaseCommandRequest {
         
         // MARK: - Enums
         
@@ -52,18 +50,18 @@ extension PeripheralClient {
             self.completion = completion
         }
         
-        // MARK: - BaseRequest
+        // MARK: - BaseCommandRequest
         
         var characteristic: Characteristic {
             return command.responseCharacteristic
         }
         
-        func process(update data: Data) -> BaseRequestState {
+        func process(update data: Data) -> BaseCommandRequestState {
             updateResponses.append(data)
             return verifyExpectations(for: data)
         }
         
-        func process(write data: Data) -> BaseRequestState {
+        func process(write data: Data) -> BaseCommandRequestState {
             writeResponses.append(data)
             return verifyExpectations(for: data)
         }
@@ -86,7 +84,7 @@ extension PeripheralClient {
         
         // MARK: - Private
         
-        private func verifyExpectations(for data: Data) -> BaseRequestState {
+        private func verifyExpectations(for data: Data) -> BaseCommandRequestState {
             let updateFinished = command.expectation.updateValue?(data, updateResponses) ?? true
             let writeFinished  = command.expectation.writeValue?(data, writeResponses) ?? true
             return (updateFinished && writeFinished) ? .finished : .inProgress

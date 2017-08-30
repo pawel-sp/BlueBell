@@ -10,12 +10,12 @@ import CoreBluetooth
 
 extension PeripheralClient {
     
-    class RequestQueue {
+    class CommandRequestQueue {
         
         // MARK: - Properties
         
-        private let queue = DispatchQueue(label: "BlueBell.PeripheralClient.RequestQueue", attributes: .concurrent)
-        private var requests: [String : [BaseRequest]] = [:] // String - UUID of characteristic
+        private let queue = DispatchQueue(label: "BlueBell.PeripheralClient.CommandRequestQueue", attributes: .concurrent)
+        private var requests: [String : [BaseCommandRequest]] = [:] // String - UUID of characteristic
         
         // MARK: - Init
         
@@ -23,7 +23,7 @@ extension PeripheralClient {
         
         // MARK: - Utilities
         
-        func add(request: BaseRequest) {
+        func add(request: BaseCommandRequest) {
             queue.async(flags: .barrier) {
                 let characteristicUUID = request.characteristic.uuidString
                 if let _ = self.requests[characteristicUUID] {
@@ -34,8 +34,8 @@ extension PeripheralClient {
             }
         }
         
-        func firstRequest(for characteristic: CBCharacteristic) -> BaseRequest? {
-            var request: BaseRequest?
+        func firstRequest(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
+            var request: BaseCommandRequest?
             queue.sync {
                 request = self.requests[characteristic.uuidString]?.first
             }
@@ -43,8 +43,8 @@ extension PeripheralClient {
         }
         
         @discardableResult
-        func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseRequest? {
-            var result: BaseRequest?
+        func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
+            var result: BaseCommandRequest?
             queue.async(flags: .barrier) {
                 result = self.requests[characteristic.uuidString]?.remove(at: 0)
             }

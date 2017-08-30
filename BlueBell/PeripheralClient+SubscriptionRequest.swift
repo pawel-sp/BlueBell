@@ -1,5 +1,5 @@
 //
-//  PeripheralClient+Notification.swift
+//  PeripheralClient+SubscriptionRequest.swift
 //  BlueBell
 //
 //  Created by Paweł Sporysz on 25.08.2017.
@@ -8,16 +8,15 @@
 
 import Foundation
 
-protocol BaseNotification {
+protocol BaseSubscriptionRequest: BaseRequest {
     
-    var characteristic: Characteristic { get }
     func perform(for data:Data)
     
 }
 
 extension PeripheralClient {
     
-    class Notification<ValueType>: BaseNotification {
+    class SubscriptionRequest<ValueType>: BaseSubscriptionRequest {
         
         // MARK: - Properties
         
@@ -31,7 +30,7 @@ extension PeripheralClient {
             self.update       = update
         }
         
-        // MARK: - BaseNotification
+        // MARK: - BaseSubscriptionRequest
         
         var characteristic: Characteristic {
             return subscription.characteristic

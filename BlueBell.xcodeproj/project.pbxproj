@@ -14,10 +14,10 @@
 		A42ADE161F4F1DC300B1DEFC /* PeripheralCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE151F4F1DC300B1DEFC /* PeripheralCommand.swift */; };
 		A42ADE181F4F1DD100B1DEFC /* PeripheralSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE171F4F1DD100B1DEFC /* PeripheralSubscription.swift */; };
 		A42ADE1D1F4F1E4A00B1DEFC /* PeripheralClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE1C1F4F1E4A00B1DEFC /* PeripheralClient.swift */; };
-		A42ADE1F1F50149C00B1DEFC /* PeripheralClient+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE1E1F50149C00B1DEFC /* PeripheralClient+Request.swift */; };
-		A42ADE211F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE201F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift */; };
-		A42ADE231F5014B200B1DEFC /* PeripheralClient+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */; };
-		A42ADE251F5014BD00B1DEFC /* PeripheralClient+Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */; };
+		A42ADE1F1F50149C00B1DEFC /* PeripheralClient+CommandRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE1E1F50149C00B1DEFC /* PeripheralClient+CommandRequest.swift */; };
+		A42ADE211F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE201F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift */; };
+		A42ADE231F5014B200B1DEFC /* PeripheralClient+SubscriptionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE221F5014B200B1DEFC /* PeripheralClient+SubscriptionRequest.swift */; };
+		A42ADE251F5014BD00B1DEFC /* PeripheralClient+SubscriptionRequestQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE241F5014BD00B1DEFC /* PeripheralClient+SubscriptionRequestQueue.swift */; };
 		A42ADE271F5014C900B1DEFC /* PeripheralClient+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */; };
 		A42ADE281F5015C200B1DEFC /* CharacteristicDataTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE191F4F1E0200B1DEFC /* CharacteristicDataTransformer.swift */; };
 		A42ADE2B1F50165E00B1DEFC /* PeripheralCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE2A1F50165E00B1DEFC /* PeripheralCenter.swift */; };
@@ -43,6 +43,7 @@
 		A4F76F031F5427F300A9E515 /* StubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F76F021F5427F300A9E515 /* StubService.swift */; };
 		A4FEB67A1F56ABE800E066A9 /* StubDiscoverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FEB6791F56ABE800E066A9 /* StubDiscoverer.swift */; };
 		A4FEB67D1F56B15B00E066A9 /* PeripheralClient+DelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FEB67C1F56B15B00E066A9 /* PeripheralClient+DelegateTests.swift */; };
+		A4FEB6891F56E6BA00E066A9 /* BaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FEB6881F56E6BA00E066A9 /* BaseRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,10 +68,10 @@
 		A42ADE171F4F1DD100B1DEFC /* PeripheralSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralSubscription.swift; sourceTree = "<group>"; };
 		A42ADE191F4F1E0200B1DEFC /* CharacteristicDataTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacteristicDataTransformer.swift; sourceTree = "<group>"; };
 		A42ADE1C1F4F1E4A00B1DEFC /* PeripheralClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralClient.swift; sourceTree = "<group>"; };
-		A42ADE1E1F50149C00B1DEFC /* PeripheralClient+Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Request.swift"; sourceTree = "<group>"; };
-		A42ADE201F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+RequestQueue.swift"; sourceTree = "<group>"; };
-		A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Notification.swift"; sourceTree = "<group>"; };
-		A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Notifier.swift"; sourceTree = "<group>"; };
+		A42ADE1E1F50149C00B1DEFC /* PeripheralClient+CommandRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+CommandRequest.swift"; sourceTree = "<group>"; };
+		A42ADE201F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+CommandRequestQueue.swift"; sourceTree = "<group>"; };
+		A42ADE221F5014B200B1DEFC /* PeripheralClient+SubscriptionRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+SubscriptionRequest.swift"; sourceTree = "<group>"; };
+		A42ADE241F5014BD00B1DEFC /* PeripheralClient+SubscriptionRequestQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+SubscriptionRequestQueue.swift"; sourceTree = "<group>"; };
 		A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+Delegate.swift"; sourceTree = "<group>"; };
 		A42ADE2A1F50165E00B1DEFC /* PeripheralCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralCenter.swift; sourceTree = "<group>"; };
 		A42ADE591F50189D00B1DEFC /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		A4F76F021F5427F300A9E515 /* StubService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubService.swift; sourceTree = "<group>"; };
 		A4FEB6791F56ABE800E066A9 /* StubDiscoverer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubDiscoverer.swift; sourceTree = "<group>"; };
 		A4FEB67C1F56B15B00E066A9 /* PeripheralClient+DelegateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+DelegateTests.swift"; sourceTree = "<group>"; };
+		A4FEB6881F56E6BA00E066A9 /* BaseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,11 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				A42ADE1C1F4F1E4A00B1DEFC /* PeripheralClient.swift */,
-				A42ADE1E1F50149C00B1DEFC /* PeripheralClient+Request.swift */,
-				A42ADE201F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift */,
-				A42ADE221F5014B200B1DEFC /* PeripheralClient+Notification.swift */,
-				A42ADE241F5014BD00B1DEFC /* PeripheralClient+Notifier.swift */,
 				A42ADE261F5014C900B1DEFC /* PeripheralClient+Delegate.swift */,
+				A4FEB6871F56E6A800E066A9 /* Operations */,
 			);
 			name = Client;
 			sourceTree = "<group>";
@@ -271,6 +270,34 @@
 			children = (
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		A4FEB6851F56E5F200E066A9 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				A42ADE1E1F50149C00B1DEFC /* PeripheralClient+CommandRequest.swift */,
+				A42ADE201F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift */,
+			);
+			name = Request;
+			sourceTree = "<group>";
+		};
+		A4FEB6861F56E5FB00E066A9 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				A42ADE221F5014B200B1DEFC /* PeripheralClient+SubscriptionRequest.swift */,
+				A42ADE241F5014BD00B1DEFC /* PeripheralClient+SubscriptionRequestQueue.swift */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
+		A4FEB6871F56E6A800E066A9 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				A4FEB6881F56E6BA00E066A9 /* BaseRequest.swift */,
+				A4FEB6851F56E5F200E066A9 /* Request */,
+				A4FEB6861F56E5FB00E066A9 /* Notification */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,25 +412,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A42ADE251F5014BD00B1DEFC /* PeripheralClient+Notifier.swift in Sources */,
+				A42ADE251F5014BD00B1DEFC /* PeripheralClient+SubscriptionRequestQueue.swift in Sources */,
 				A42ADE5C1F5019DC00B1DEFC /* Peripheral.swift in Sources */,
 				A42ADE5A1F50189D00B1DEFC /* Service.swift in Sources */,
 				A42ADE181F4F1DD100B1DEFC /* PeripheralSubscription.swift in Sources */,
 				A42ADE281F5015C200B1DEFC /* CharacteristicDataTransformer.swift in Sources */,
-				A42ADE211F5014A800B1DEFC /* PeripheralClient+RequestQueue.swift in Sources */,
+				A42ADE211F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift in Sources */,
 				A42ADE161F4F1DC300B1DEFC /* PeripheralCommand.swift in Sources */,
+				A4FEB6891F56E6BA00E066A9 /* BaseRequest.swift in Sources */,
 				A42ADE6B1F505B9000B1DEFC /* Extensions.swift in Sources */,
 				A42ADE111F4F1D7900B1DEFC /* Characteristic.swift in Sources */,
 				A42ADE601F50203B00B1DEFC /* PeripheralCenter+Central.swift in Sources */,
 				A42ADE681F505AE300B1DEFC /* BlueModel.swift in Sources */,
-				A42ADE1F1F50149C00B1DEFC /* PeripheralClient+Request.swift in Sources */,
+				A42ADE1F1F50149C00B1DEFC /* PeripheralClient+CommandRequest.swift in Sources */,
 				A42ADE1D1F4F1E4A00B1DEFC /* PeripheralClient.swift in Sources */,
 				A42ADE641F502E6400B1DEFC /* Types.swift in Sources */,
 				A42ADE141F4F1DA700B1DEFC /* PeripheralOperation.swift in Sources */,
 				A42ADE2B1F50165E00B1DEFC /* PeripheralCenter.swift in Sources */,
 				A42ADE271F5014C900B1DEFC /* PeripheralClient+Delegate.swift in Sources */,
 				A42ADE661F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift in Sources */,
-				A42ADE231F5014B200B1DEFC /* PeripheralClient+Notification.swift in Sources */,
+				A42ADE231F5014B200B1DEFC /* PeripheralClient+SubscriptionRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

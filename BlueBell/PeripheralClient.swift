@@ -24,8 +24,8 @@ class PeripheralClient {
     let peripheral: CBPeripheral
     let characteristics: Set<CBCharacteristic>
     
-    private let requestQueue = RequestQueue()
-    private let notifier     = Notifier()
+    private let commandRequestQueue      = CommandRequestQueue()
+    private let subscriptionRequestQueue = SubscriptionRequestQueue()
     private lazy var peripheralDelegate: Delegate = self.preparedPeripheralDelegate()
     
     // MARK: - Init
@@ -55,8 +55,8 @@ class PeripheralClient {
         }
         
         if let completion = completion {
-            let request = Request(command: command, completion: completion)
-            requestQueue.add(request: request)
+            let request = CommandRequest(command: command, completion: completion)
+            commandRequestQueue.add(request: request)
         }
     }
     
@@ -74,7 +74,7 @@ class PeripheralClient {
         guard let cbCharacteristic = cbCharacteristic(for: characteristic) else {
             return
         }
-        notifier.removeNotification(for: cbCharacteristic)
+        subscriptionRequestQueue.removeRequest(for: cbCharacteristic)
         peripheral.setNotifyValue(false, for: cbCharacteristic)
     }
     
@@ -93,30 +93,30 @@ class PeripheralClient {
         
         let didUpdateAction: Completion<CBCharacteristic> = { characteristic, error in
             if error != nil {
-                let request = self.requestQueue.removeFirstRequst(for: characteristic)
+                let request = self.commandRequestQueue.removeFirstRequst(for: characteristic)
                 request?.finish(error: error)
                 // anulowac pozostale requesty na tej charakterystyce? bo zrobi sie rozjazd
             } else {
                 // request
-                guard let data = characteristic.value, let request = self.requestQueue.firstRequest(for: characteristic) else { return }
+                guard let data = characteristic.value, let request = self.commandRequestQueue.firstRequest(for: characteristic) else { return }
                 if request.process(update: data) == .finished {
                     request.finish(error: nil)
-                    self.requestQueue.removeFirstRequst(for: characteristic)
+                    self.commandRequestQueue.removeFirstRequst(for: characteristic)
                 }
                 // subscription
-                self.notifier.notification(for: characteristic)?.perform(for: data)
+                self.subscriptionRequestQueue.request(for: characteristic)?.perform(for: data)
             }
         }
         
         let didWriteAction: Completion<CBCharacteristic> = { characteristic, error in
             if error != nil {
-                let request = self.requestQueue.removeFirstRequst(for: characteristic)
+                let request = self.commandRequestQueue.removeFirstRequst(for: characteristic)
                 request?.finish(error: error)
             } else {
-                guard let data = characteristic.value, let request = self.requestQueue.firstRequest(for: characteristic) else { return }
+                guard let data = characteristic.value, let request = self.commandRequestQueue.firstRequest(for: characteristic) else { return }
                 if request.process(write: data) == .finished {
                     request.finish(error: nil)
-                    self.requestQueue.removeFirstRequst(for: characteristic)
+                    self.commandRequestQueue.removeFirstRequst(for: characteristic)
                 }
             }
         }
