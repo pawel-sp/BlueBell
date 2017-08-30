@@ -37,25 +37,27 @@ class PeripheralClient {
     
     // MARK: - Actions
     
-    func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: @escaping ResultCompletion<ValueType>) {
+    func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>?) {
         switch command.operation {
             case .read(let characteristic):
                 guard let cbCharacteristic = characteristics.first(for: characteristic) else {
-                    completion(.error(ClientError.incorrectCharacteristic))
+                    completion?(.error(ClientError.incorrectCharacteristic))
                     return
                 }
                 peripheral.readValue(for: cbCharacteristic)
             case .write(let value, let characteristic):
                 guard let cbCharacteristic = characteristics.first(for: characteristic) else {
-                    completion(.error(ClientError.incorrectCharacteristic))
+                    completion?(.error(ClientError.incorrectCharacteristic))
                     return
                 }
                 let data = command.transformer.transform(valueToData: value)
                 peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
         }
         
-        let request = Request(command: command, completion: completion)
-        requestQueue.add(request: request)
+        if let completion = completion {
+            let request = Request(command: command, completion: completion)
+            requestQueue.add(request: request)
+        }
     }
     
     func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {
