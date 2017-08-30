@@ -10,14 +10,16 @@ import CoreBluetooth
 
 extension PeripheralClient {
     
-    class PeripheralDelegate: NSObject, CBPeripheralDelegate {
+    class Delegate: NSObject, CBPeripheralDelegate {
         
         // MARK: - Properties
         
         let didUpdateValue: Completion<CBCharacteristic>?
         let didWriteValue: Completion<CBCharacteristic>?
+        let peripheral: CBPeripheral
         
         init(peripheral: CBPeripheral, didUpdateValue: Completion<CBCharacteristic>?, didWriteValue: Completion<CBCharacteristic>?) {
+            self.peripheral     = peripheral
             self.didUpdateValue = didUpdateValue
             self.didWriteValue  = didWriteValue
             super.init()

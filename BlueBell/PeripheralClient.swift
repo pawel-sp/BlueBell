@@ -26,7 +26,7 @@ class PeripheralClient {
     
     private let requestQueue = RequestQueue()
     private let notifier     = Notifier()
-    private lazy var peripheralDelegate: PeripheralDelegate = self.preparedPeripheralDelegate()
+    private lazy var peripheralDelegate: Delegate = self.preparedPeripheralDelegate()
     
     // MARK: - Init
     
@@ -86,12 +86,13 @@ class PeripheralClient {
         //return characteristics.first(for: characteristic)
     }
     
-    private func preparedPeripheralDelegate() -> PeripheralDelegate {
+    private func preparedPeripheralDelegate() -> Delegate {
         
         let didUpdateAction: Completion<CBCharacteristic> = { characteristic, error in
             if error != nil {
                 let request = self.requestQueue.removeFirstRequst(for: characteristic)
                 request?.finish(error: error)
+                // anulowac pozostale requesty na tej charakterystyce? bo zrobi sie rozjazd
             } else {
                 // request
                 guard let data = characteristic.value, let request = self.requestQueue.firstRequest(for: characteristic) else { return }
@@ -117,7 +118,7 @@ class PeripheralClient {
             }
         }
         
-        return PeripheralDelegate(
+        return Delegate(
             peripheral: peripheral,
             didUpdateValue: didUpdateAction,
             didWriteValue: didWriteAction
