@@ -8,6 +8,7 @@
 
 protocol BLEPeripheralOperation {
     
-    var characteristic: Characteristic { get }
+    // Characteristic for which operation should wait regarding any responses (update, write)
+    var responseCharacteristic: Characteristic { get }
     
 }

@@ -22,4 +22,10 @@ class PeripheralSubscription<ValueType>: BLEPeripheralOperation {
         self.transformer    = transformer
     }
     
+    // MARK: - BLEPeripheralOperation
+    
+    var responseCharacteristic: Characteristic {
+        return characteristic
+    }
+    
 }

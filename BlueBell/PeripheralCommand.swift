@@ -8,15 +8,16 @@
 
 import Foundation
 
+// Command can have two characteristics. First one for performing operation (read, write) and second one for responses (that one inside Expectation. It is for scenario like you're performing operation on particular characteristic but there would be response from another one.
 class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - Enums
     
     enum Operation {
         
-        case read
-        case write(ValueType)
-        
+        case read(Characteristic)
+        case write(ValueType, Characteristic)
+
     }
     
     // MARK: - Structs
@@ -28,6 +29,7 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
         // Bool   - should continue collecting responses or not
         typealias Expectation = (Data, [Data]) -> Bool
         
+        let characteristic: Characteristic
         let updateValue: Expectation?
         let writeValue:  Expectation?
         
@@ -35,18 +37,22 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - Properties
     
-    let characteristic: Characteristic
     let operation: Operation
     let expectation: Expectation
     let transformer: CharacteristicDataTransformer<ValueType>
     
     // MARK: - Init
     
-    init(characteristic: Characteristic, operation: Operation, expectation: Expectation, transformer: CharacteristicDataTransformer<ValueType>) {
-        self.characteristic = characteristic
+    init(operation: Operation, expectation: Expectation, transformer: CharacteristicDataTransformer<ValueType>) {
         self.operation      = operation
         self.expectation    = expectation
         self.transformer    = transformer
+    }
+    
+    // MARK: - BLEPeripheralOperation
+    
+    var responseCharacteristic: Characteristic {
+        return expectation.characteristic
     }
     
 }

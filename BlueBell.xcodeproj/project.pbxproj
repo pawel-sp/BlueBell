@@ -151,8 +151,7 @@
 		A42ADE021F4F1CCF00B1DEFC /* BlueBellTests */ = {
 			isa = PBXGroup;
 			children = (
-				A4F30B391F5451AE0044EB1B /* Extensions */,
-				A4F76EFC1F5417A400A9E515 /* Mocks, Stubs, Fakes */,
+				A4FEB67F1F56D3F300E066A9 /* Test Utilities */,
 				A4F76EF91F54098500A9E515 /* Center */,
 				A4FEB67B1F56B13E00E066A9 /* Client */,
 				A42ADE051F4F1CCF00B1DEFC /* Info.plist */,
@@ -255,6 +254,15 @@
 				A4FEB67C1F56B15B00E066A9 /* PeripheralClient+DelegateTests.swift */,
 			);
 			name = Client;
+			sourceTree = "<group>";
+		};
+		A4FEB67F1F56D3F300E066A9 /* Test Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A4F30B391F5451AE0044EB1B /* Extensions */,
+				A4F76EFC1F5417A400A9E515 /* Mocks, Stubs, Fakes */,
+			);
+			name = "Test Utilities";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

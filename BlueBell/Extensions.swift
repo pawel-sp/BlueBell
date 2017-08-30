@@ -58,7 +58,7 @@ extension CBPeripheral {
 
 // MARK: - Array
 
-extension Array where Element: CBCharacteristic {
+extension Set where Element: CBCharacteristic {
     
     func first(for characteristic: Characteristic) -> Element? {
         return filter({ $0.uuidString == characteristic.uuidString }).first

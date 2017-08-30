@@ -38,33 +38,34 @@ class PeripheralClient {
     // MARK: - Actions
     
     func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: @escaping ResultCompletion<ValueType>) {
-        
-        guard let cbCharacteristic = cbCharacteristic(for: command) else {
-            completion(.error(ClientError.incorrectCharacteristic))
-            return
-        }
-        
         switch command.operation {
-        case .read:
-            peripheral.readValue(for: cbCharacteristic)
-        case .write(let value):
-            let data = command.transformer.transform(valueToData: value)
-            peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
+            case .read(let characteristic):
+                guard let cbCharacteristic = characteristics.first(for: characteristic) else {
+                    completion(.error(ClientError.incorrectCharacteristic))
+                    return
+                }
+                peripheral.readValue(for: cbCharacteristic)
+            case .write(let value, let characteristic):
+                guard let cbCharacteristic = characteristics.first(for: characteristic) else {
+                    completion(.error(ClientError.incorrectCharacteristic))
+                    return
+                }
+                let data = command.transformer.transform(valueToData: value)
+                peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
         }
         
         let request = Request(command: command, completion: completion)
         requestQueue.add(request: request)
-        
     }
     
     func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {
-        guard let cbCharacteristic = cbCharacteristic(for: subscription) else {
-            update(.error(ClientError.incorrectCharacteristic))
-            return
-        }
-        let notification = Notification(subscription: subscription, update: update)
-        notifier.add(notification: notification)
-        peripheral.setNotifyValue(true, for: cbCharacteristic)
+//        guard let cbCharacteristic = cbCharacteristic(for: subscription) else {
+//            update(.error(ClientError.incorrectCharacteristic))
+//            return
+//        }
+//        let notification = Notification(subscription: subscription, update: update)
+//        notifier.add(notification: notification)
+//        peripheral.setNotifyValue(true, for: cbCharacteristic)
     }
     
     func unregister(subscriptionFor characteristic: Characteristic) {
@@ -77,13 +78,13 @@ class PeripheralClient {
     
     // MARK: - Private
     
-    private func cbCharacteristic(for operation: BLEPeripheralOperation) -> CBCharacteristic? {
-        return cbCharacteristic(for: operation.characteristic)
-    }
+//    private func cbCharacteristic(for operation: BLEPeripheralOperation) -> CBCharacteristic? {
+//        return cbCharacteristic(for: operation.characteristic)
+//    }
     
     private func cbCharacteristic(for characteristic: Characteristic) -> CBCharacteristic? {
         return nil
-        //return characteristics.first(for: characteristic)
+        return characteristics.first(for: characteristic)
     }
     
     private func preparedPeripheralDelegate() -> Delegate {

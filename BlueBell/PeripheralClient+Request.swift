@@ -55,7 +55,7 @@ extension PeripheralClient {
         // MARK: - BaseRequest
         
         var characteristic: Characteristic {
-            return command.characteristic
+            return command.responseCharacteristic
         }
         
         func process(update data: Data) -> BaseRequestState {
