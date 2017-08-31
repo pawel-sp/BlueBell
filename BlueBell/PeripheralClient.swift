@@ -104,7 +104,7 @@ class PeripheralClient {
                     self.commandRequestQueue.removeFirstRequst(for: characteristic)
                 }
                 // subscription
-                self.subscriptionRequestQueue.request(for: characteristic)?.perform(for: data)
+                self.subscriptionRequestQueue.request(for: characteristic)?.perform(for: data, error: error)
             }
         }
         

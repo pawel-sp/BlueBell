@@ -10,7 +10,7 @@ import Foundation
 
 protocol BaseSubscriptionRequest: BaseRequest {
     
-    func perform(for data:Data)
+    func perform(for data: Data, error: Error?)
     
 }
 
@@ -36,9 +36,13 @@ extension PeripheralClient {
             return subscription.characteristic
         }
         
-        func perform(for data:Data) {
-            let value = subscription.transformer.transform(dataToValue: data)
-            update(Result.value(value))
+        func perform(for data:Data, error: Error?) {
+            if let error = error {
+                update(Result.error(error))
+            } else {
+                let value = subscription.transformer.transform(dataToValue: data)
+                update(Result.value(value))
+            }
         }
         
     }
