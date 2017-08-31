@@ -14,7 +14,7 @@ extension PeripheralClient {
         
         // MARK: - Properties
         
-        private var requests: [String : BaseSubscriptionRequest] = [:] // String : characteristic UUID
+        private var requests: [String : BaseSubscriptionRequest] = [:] // String : Characteristic UUID
         
         // MARK: - Init
 

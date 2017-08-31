@@ -14,7 +14,7 @@ extension PeripheralClient {
         
         // MARK: - Properties
         
-        private var requests: [String : [BaseCommandRequest]] = [:] // String - UUID of characteristic
+        private var requests: [String : [BaseCommandRequest]] = [:] // String : Characteristic UUID
         
         // MARK: - Init
         
@@ -39,7 +39,7 @@ extension PeripheralClient {
         func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
             var result: BaseCommandRequest?
             queue.async {
-                result = self.requests[characteristic.uuidString]?.remove(at: 0)
+                result = self.requests[characteristic.uuidString]?.removeFirst()
             }
             return result
         }
