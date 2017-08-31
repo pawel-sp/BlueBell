@@ -34,6 +34,9 @@
 		A4A8F2961F55B1F800D99C85 /* PeripheralCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */; };
 		A4A8F2981F569E3800D99C85 /* FakeCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2971F569E3800D99C85 /* FakeCentral.swift */; };
 		A4C2B01D1F582AD3003F2522 /* PeripheralClient+SubscriptionRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C2B01C1F582AD3003F2522 /* PeripheralClient+SubscriptionRequestTests.swift */; };
+		A4C2B01F1F5830A6003F2522 /* PeripheralClient+SubscriptionRequestQueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C2B01E1F5830A6003F2522 /* PeripheralClient+SubscriptionRequestQueueTests.swift */; };
+		A4C2B0211F583A56003F2522 /* BaseRequestQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C2B0201F583A56003F2522 /* BaseRequestQueue.swift */; };
+		A4C2B0291F5844FB003F2522 /* MockDispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C2B0281F5844FB003F2522 /* MockDispatchQueue.swift */; };
 		A4F30B341F5432DF0044EB1B /* StubCBPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */; };
 		A4F30B3B1F5451B90044EB1B /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B3A1F5451B90044EB1B /* Operators.swift */; };
 		A4F30B3F1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F30B3E1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift */; };
@@ -89,6 +92,10 @@
 		A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralCenterTests.swift; sourceTree = "<group>"; };
 		A4A8F2971F569E3800D99C85 /* FakeCentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeCentral.swift; sourceTree = "<group>"; };
 		A4C2B01C1F582AD3003F2522 /* PeripheralClient+SubscriptionRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+SubscriptionRequestTests.swift"; sourceTree = "<group>"; };
+		A4C2B01E1F5830A6003F2522 /* PeripheralClient+SubscriptionRequestQueueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralClient+SubscriptionRequestQueueTests.swift"; sourceTree = "<group>"; };
+		A4C2B0201F583A56003F2522 /* BaseRequestQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRequestQueue.swift; sourceTree = "<group>"; };
+		A4C2B0241F583B43003F2522 /* BlueBellTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BlueBellTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		A4C2B0281F5844FB003F2522 /* MockDispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDispatchQueue.swift; sourceTree = "<group>"; };
 		A4F30B331F5432DF0044EB1B /* StubCBPeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBPeripheral.swift; sourceTree = "<group>"; };
 		A4F30B3A1F5451B90044EB1B /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		A4F30B3E1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralCenter+DiscovererTests.swift"; sourceTree = "<group>"; };
@@ -174,6 +181,7 @@
 		A42ADE021F4F1CCF00B1DEFC /* BlueBellTests */ = {
 			isa = PBXGroup;
 			children = (
+				A4C2B0241F583B43003F2522 /* BlueBellTests-Bridging-Header.h */,
 				A4FEB67F1F56D3F300E066A9 /* Test Utilities */,
 				A4FEB6821F56E15900E066A9 /* Common */,
 				A4FEB67B1F56B13E00E066A9 /* Client */,
@@ -238,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				A4C2B01C1F582AD3003F2522 /* PeripheralClient+SubscriptionRequestTests.swift */,
+				A4C2B01E1F5830A6003F2522 /* PeripheralClient+SubscriptionRequestQueueTests.swift */,
 			);
 			name = Subscription;
 			sourceTree = "<group>";
@@ -273,6 +282,7 @@
 				A4F30B421F556BA60044EB1B /* StubCharacteristic.swift */,
 				A4A8F2971F569E3800D99C85 /* FakeCentral.swift */,
 				A4FEB6791F56ABE800E066A9 /* StubDiscoverer.swift */,
+				A4C2B0281F5844FB003F2522 /* MockDispatchQueue.swift */,
 			);
 			name = "Mocks, Stubs, Fakes";
 			sourceTree = "<group>";
@@ -324,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				A4FEB6881F56E6BA00E066A9 /* BaseRequest.swift */,
+				A4C2B0201F583A56003F2522 /* BaseRequestQueue.swift */,
 				A4FEB6851F56E5F200E066A9 /* Command */,
 				A4FEB6861F56E5FB00E066A9 /* Subscription */,
 			);
@@ -447,6 +458,7 @@
 				A42ADE5A1F50189D00B1DEFC /* Service.swift in Sources */,
 				A42ADE181F4F1DD100B1DEFC /* PeripheralSubscription.swift in Sources */,
 				A42ADE281F5015C200B1DEFC /* CharacteristicDataTransformer.swift in Sources */,
+				A4C2B0211F583A56003F2522 /* BaseRequestQueue.swift in Sources */,
 				A42ADE211F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift in Sources */,
 				A42ADE161F4F1DC300B1DEFC /* PeripheralCommand.swift in Sources */,
 				A4FEB6891F56E6BA00E066A9 /* BaseRequest.swift in Sources */,
@@ -474,6 +486,7 @@
 				A4F30B341F5432DF0044EB1B /* StubCBPeripheral.swift in Sources */,
 				A4F30B411F55622E0044EB1B /* FakeCBPeripheral.swift in Sources */,
 				A4FEB67D1F56B15B00E066A9 /* PeripheralClient+DelegateTests.swift in Sources */,
+				A4C2B01F1F5830A6003F2522 /* PeripheralClient+SubscriptionRequestQueueTests.swift in Sources */,
 				A4F76F001F541A1A00A9E515 /* StubPeripheral.swift in Sources */,
 				A4163A2B1F56FEB000C02E05 /* PeripheralClient+CommandRequestTests.swift in Sources */,
 				A4C2B01D1F582AD3003F2522 /* PeripheralClient+SubscriptionRequestTests.swift in Sources */,
@@ -484,6 +497,7 @@
 				A4F30B3F1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift in Sources */,
 				A4F76EFB1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift in Sources */,
 				A4F76F031F5427F300A9E515 /* StubService.swift in Sources */,
+				A4C2B0291F5844FB003F2522 /* MockDispatchQueue.swift in Sources */,
 				A4A8F2941F55A28800D99C85 /* StubCBCharacteristic.swift in Sources */,
 				A4F30B3B1F5451B90044EB1B /* Operators.swift in Sources */,
 			);
@@ -649,6 +663,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBellTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BlueBellTests/BlueBellTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -663,6 +678,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pawelsporysz.BlueBellTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BlueBellTests/BlueBellTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

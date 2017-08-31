@@ -10,16 +10,17 @@ import CoreBluetooth
 
 extension PeripheralClient {
     
-    class SubscriptionRequestQueue {
+    class SubscriptionRequestQueue: BaseRequestQueue {
         
         // MARK: - Properties
         
-        private let queue = DispatchQueue(label: "BlueBell.PeripheralClient.SubscriptionRequestQueue", attributes: .concurrent)
-        private var requests: [String : BaseSubscriptionRequest] = [:] // String - UUID of characteristic
+        private var requests: [String : BaseSubscriptionRequest] = [:] // String : characteristic UUID
         
         // MARK: - Init
-        
-        init() {}
+
+        convenience init() {
+            self.init(label: "BlueBell.PeripheralClient.SubscriptionRequestQueue")
+        }
         
         // MARK: - Actions
         

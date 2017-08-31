@@ -10,21 +10,22 @@ import CoreBluetooth
 
 extension PeripheralClient {
     
-    class CommandRequestQueue {
+    class CommandRequestQueue: BaseRequestQueue {
         
         // MARK: - Properties
         
-        private let queue = DispatchQueue(label: "BlueBell.PeripheralClient.CommandRequestQueue", attributes: .concurrent)
         private var requests: [String : [BaseCommandRequest]] = [:] // String - UUID of characteristic
         
         // MARK: - Init
         
-        init() {}
+        convenience init() {
+            self.init(label: "BlueBell.PeripheralClient.CommandRequestQueue")
+        }
         
         // MARK: - Utilities
         
         func add(request: BaseCommandRequest) {
-            queue.async(flags: .barrier) {
+            queue.async {
                 let characteristicUUID = request.characteristic.uuidString
                 if let _ = self.requests[characteristicUUID] {
                     self.requests[characteristicUUID]?.append(request)
@@ -34,21 +35,21 @@ extension PeripheralClient {
             }
         }
         
+        @discardableResult
+        func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
+            var result: BaseCommandRequest?
+            queue.async {
+                result = self.requests[characteristic.uuidString]?.remove(at: 0)
+            }
+            return result
+        }
+        
         func firstRequest(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
             var request: BaseCommandRequest?
             queue.sync {
                 request = self.requests[characteristic.uuidString]?.first
             }
             return request
-        }
-        
-        @discardableResult
-        func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
-            var result: BaseCommandRequest?
-            queue.async(flags: .barrier) {
-                result = self.requests[characteristic.uuidString]?.remove(at: 0)
-            }
-            return result
         }
         
     }
