@@ -23,6 +23,8 @@ typealias ResultCompletion<Value> = (Result<Value>)  -> ()
 typealias Completion<Value>       = (Value, Error?)  -> ()
 typealias BufferCompletion<Value> = (Value, [Value]) -> ()
 
+typealias DataReduce = ([Data]) -> Data
+
 // MARK: - Structs
 
 struct PeripheralInfo: Hashable, Equatable {

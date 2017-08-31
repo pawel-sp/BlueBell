@@ -13,7 +13,7 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - Enums
     
-    enum Operation {
+    indirect enum Operation {
         
         case read(Characteristic)
         case write(ValueType, Characteristic)
@@ -27,11 +27,11 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
         // Data   - last response from didUpdateValue
         // [Data] - all current responses
         // Bool   - should continue collecting responses or not
-        typealias Expectation = (Data, [Data]) -> Bool
+        typealias Condition = (Data, [Data]) -> Bool
         
         let characteristic: Characteristic
-        let updateValue: Expectation?
-        let writeValue:  Expectation?
+        let updateValue: Condition?
+        let writeValue: Condition?
         
     }
     
