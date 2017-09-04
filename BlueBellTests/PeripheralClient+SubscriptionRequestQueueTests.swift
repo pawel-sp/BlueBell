@@ -16,7 +16,7 @@ class PeripheralClient_SubscriptionRequestQueueTests: XCTestCase {
     
     class Request: BaseSubscriptionRequest {
         
-        let characteristic: Characteristic
+        let characteristic: Characteristic?
         
         init(characteristic: Characteristic) {
             self.characteristic = characteristic

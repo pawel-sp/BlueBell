@@ -29,6 +29,8 @@
 		A42ADE661F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE651F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift */; };
 		A42ADE681F505AE300B1DEFC /* BlueModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE671F505AE300B1DEFC /* BlueModel.swift */; };
 		A42ADE6B1F505B9000B1DEFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE6A1F505B9000B1DEFC /* Extensions.swift */; };
+		A453BDC21F5D4C2A00313380 /* ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453BDC11F5D4C2A00313380 /* ExtensionsTests.swift */; };
+		A453BDC41F5D564900313380 /* PeripheralClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453BDC31F5D564900313380 /* PeripheralClientTests.swift */; };
 		A4A8F2921F559ACF00D99C85 /* StubCBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2911F559ACF00D99C85 /* StubCBService.swift */; };
 		A4A8F2941F55A28800D99C85 /* StubCBCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2931F55A28800D99C85 /* StubCBCharacteristic.swift */; };
 		A4A8F2961F55B1F800D99C85 /* PeripheralCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */; };
@@ -88,6 +90,8 @@
 		A42ADE651F504C9800B1DEFC /* PeripheralCenter+Discoverer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PeripheralCenter+Discoverer.swift"; sourceTree = "<group>"; };
 		A42ADE671F505AE300B1DEFC /* BlueModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueModel.swift; sourceTree = "<group>"; };
 		A42ADE6A1F505B9000B1DEFC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A453BDC11F5D4C2A00313380 /* ExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsTests.swift; sourceTree = "<group>"; };
+		A453BDC31F5D564900313380 /* PeripheralClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralClientTests.swift; sourceTree = "<group>"; };
 		A4A8F2911F559ACF00D99C85 /* StubCBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBService.swift; sourceTree = "<group>"; };
 		A4A8F2931F55A28800D99C85 /* StubCBCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBCharacteristic.swift; sourceTree = "<group>"; };
 		A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralCenterTests.swift; sourceTree = "<group>"; };
@@ -293,6 +297,7 @@
 		A4FEB67B1F56B13E00E066A9 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				A453BDC31F5D564900313380 /* PeripheralClientTests.swift */,
 				A4FEB67C1F56B15B00E066A9 /* PeripheralClient+DelegateTests.swift */,
 				A4163A281F56FE7600C02E05 /* Operations */,
 			);
@@ -311,6 +316,7 @@
 		A4FEB6821F56E15900E066A9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				A453BDC11F5D4C2A00313380 /* ExtensionsTests.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -494,9 +500,11 @@
 				A4163A2B1F56FEB000C02E05 /* PeripheralClient+CommandRequestTests.swift in Sources */,
 				A4C2B02D1F584BB1003F2522 /* PeripheralClient+CommandRequestQueueTests.swift in Sources */,
 				A4C2B01D1F582AD3003F2522 /* PeripheralClient+SubscriptionRequestTests.swift in Sources */,
+				A453BDC41F5D564900313380 /* PeripheralClientTests.swift in Sources */,
 				A4F30B431F556BA60044EB1B /* StubCharacteristic.swift in Sources */,
 				A4A8F2981F569E3800D99C85 /* FakeCentral.swift in Sources */,
 				A4A8F2921F559ACF00D99C85 /* StubCBService.swift in Sources */,
+				A453BDC21F5D4C2A00313380 /* ExtensionsTests.swift in Sources */,
 				A4F76EFE1F5417B500A9E515 /* FakeCBCentralManager.swift in Sources */,
 				A4F30B3F1F555E6D0044EB1B /* PeripheralCenter+DiscovererTests.swift in Sources */,
 				A4F76EFB1F54099B00A9E515 /* PeripheralCenter+CentralTests.swift in Sources */,

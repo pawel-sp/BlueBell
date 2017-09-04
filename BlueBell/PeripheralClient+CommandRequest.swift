@@ -48,8 +48,8 @@ extension PeripheralClient {
             self.reducer    = reducer
             
             // if there are no expectations - update is already finished
-            self.updateFinished = command.expectation.updateValue == nil
-            self.writeFinished  = command.expectation.writeValue == nil
+            self.updateFinished = command.expectation?.updateValue == nil
+            self.writeFinished  = command.expectation?.writeValue == nil
         }
         
         convenience init(command: PeripheralCommand<ValueType>, completion: @escaping ResultCompletion<ValueType>) {
@@ -68,14 +68,14 @@ extension PeripheralClient {
         
         // MARK: - BaseCommandRequest
         
-        var characteristic: Characteristic {
+        var characteristic: Characteristic? {
             return command.responseCharacteristic
         }
         
         func process(update data: Data) -> BaseCommandRequestState {
             if !updateFinished {
                 updateResponses.append(data)
-                self.updateFinished = command.expectation.updateValue?(data, updateResponses) ?? true
+                self.updateFinished = command.expectation?.updateValue?(data, updateResponses) ?? true
             }
             return verifyExpectations()
         }
@@ -83,7 +83,7 @@ extension PeripheralClient {
         func process(write data: Data) -> BaseCommandRequestState {
             if !writeFinished {
                 writeResponses.append(data)
-                self.writeFinished = command.expectation.writeValue?(data, writeResponses) ?? true
+                self.writeFinished = command.expectation?.writeValue?(data, writeResponses) ?? true
             }
             return verifyExpectations()
         }

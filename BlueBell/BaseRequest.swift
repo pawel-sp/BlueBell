@@ -10,6 +10,6 @@ import Foundation
 
 protocol BaseRequest {
     
-    var characteristic: Characteristic { get }
+    var characteristic: Characteristic? { get }
     
 }

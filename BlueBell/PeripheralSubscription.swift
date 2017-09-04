@@ -24,7 +24,7 @@ class PeripheralSubscription<ValueType>: BLEPeripheralOperation {
     
     // MARK: - BLEPeripheralOperation
     
-    var responseCharacteristic: Characteristic {
+    var responseCharacteristic: Characteristic? {
         return characteristic
     }
     

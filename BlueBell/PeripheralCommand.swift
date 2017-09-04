@@ -38,12 +38,12 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     // MARK: - Properties
     
     let operation: Operation
-    let expectation: Expectation
+    let expectation: Expectation?
     let transformer: CharacteristicDataTransformer<ValueType>
     
     // MARK: - Init
     
-    init(operation: Operation, expectation: Expectation, transformer: CharacteristicDataTransformer<ValueType>) {
+    init(operation: Operation, expectation: Expectation?, transformer: CharacteristicDataTransformer<ValueType>) {
         self.operation      = operation
         self.expectation    = expectation
         self.transformer    = transformer
@@ -51,8 +51,18 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - BLEPeripheralOperation
     
-    var responseCharacteristic: Characteristic {
-        return expectation.characteristic
+    var responseCharacteristic: Characteristic? {
+        return expectation?.characteristic
+    }
+    
+}
+
+// MARK: - Extensions
+
+extension PeripheralCommand.Expectation {
+    
+    var isEmpty: Bool {
+        return writeValue == nil && updateValue == nil
     }
     
 }

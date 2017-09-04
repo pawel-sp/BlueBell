@@ -32,7 +32,7 @@ extension PeripheralClient {
         
         // MARK: - BaseSubscriptionRequest
         
-        var characteristic: Characteristic {
+        var characteristic: Characteristic? {
             return subscription.characteristic
         }
         

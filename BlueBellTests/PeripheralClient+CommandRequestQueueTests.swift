@@ -16,7 +16,7 @@ class PeripheralClient_CommandRequestQueueTests: XCTestCase {
     
     class Request: BaseCommandRequest {
         
-        let characteristic: Characteristic
+        let characteristic: Characteristic?
         
         init(characteristic: Characteristic) {
             self.characteristic = characteristic

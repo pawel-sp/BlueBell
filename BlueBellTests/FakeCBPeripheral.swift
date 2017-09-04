@@ -14,6 +14,9 @@ class FakeCBPeripheral: CBPeripheral {
     
     var discoverServicesParameters: (invokes: Int, serviceUUIDs: [CBUUID]?) = (0, nil)
     var discoverCharacteristicParameters: [String : [CBUUID]] = [:]
+    var writeValueParameters: (invokes: Int, params: (value: Data, characteristic: CBCharacteristic)?) = (0, nil)
+    var readValueParameters: (invokes: Int, characteristic: CBCharacteristic?) = (0, nil)
+    var setNotifyParameters: (invokes: Int, params: (enabled: Bool, characteristic: CBCharacteristic)?) = (0, nil)
     
     var discoverServiceError: Error?
     var discoverCharacteristicError: Error?
@@ -41,8 +44,8 @@ class FakeCBPeripheral: CBPeripheral {
     
     override func discoverServices(_ serviceUUIDs: [CBUUID]?) {
         discoverServicesParameters = (discoverServicesParameters.invokes + 1, serviceUUIDs)
-        self.stubServices = serviceUUIDs?.map({ StubCBService(stubIdentifier: $0) })
-        delegate?.peripheral?(self, didDiscoverServices: self.discoverServiceError)
+        stubServices = serviceUUIDs?.map({ StubCBService(stubIdentifier: $0) })
+        delegate?.peripheral?(self, didDiscoverServices: discoverServiceError)
     }
     
     override func discoverCharacteristics(_ characteristicUUIDs: [CBUUID]?, for service: CBService) {
@@ -56,6 +59,18 @@ class FakeCBPeripheral: CBPeripheral {
             stubCharacteristics: characteristicUUIDs?.map({ StubCBCharacteristic(stubIdentifier: $0) })
         )
         delegate?.peripheral?(self, didDiscoverCharacteristicsFor: serviceResult, error: self.discoverCharacteristicError)
+    }
+    
+    override func writeValue(_ data: Data, for characteristic: CBCharacteristic, type: CBCharacteristicWriteType) {
+        writeValueParameters = (invokes: writeValueParameters.invokes + 1, params: (data, characteristic))
+    }
+    
+    override func readValue(for characteristic: CBCharacteristic) {
+        readValueParameters = (invokes: readValueParameters.invokes + 1, characteristic: characteristic)
+    }
+    
+    override func setNotifyValue(_ enabled: Bool, for characteristic: CBCharacteristic) {
+        setNotifyParameters = (invokes: setNotifyParameters.invokes + 1, params: (enabled, characteristic))
     }
     
 }

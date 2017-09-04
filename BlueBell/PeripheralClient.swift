@@ -14,8 +14,9 @@ class PeripheralClient {
     
     enum ClientError: Error {
         
-        case incorrectCharacteristic
-        // timeout 3 s na jedna paczke
+        case incorrectCharacteristicForOperation(String) // it means that characteristic with UUID wasn't discovered and passed to PeripheralClient init
+        case incorrectCharacteristicForExpectation(String) // it means that characteristic with UUID wasn't discovered and passed to PeripheralClient init
+        case missingExpectation // if you are using completion block in perform method you need to specify expectation, otherwise do not use completion block
         
     }
     
@@ -23,55 +24,80 @@ class PeripheralClient {
     
     let peripheral: CBPeripheral
     let characteristics: Set<CBCharacteristic>
+    let commandRequestQueue: CommandRequestQueue
+    let subscriptionRequestQueue: SubscriptionRequestQueue
     
-    private let commandRequestQueue      = CommandRequestQueue()
-    private let subscriptionRequestQueue = SubscriptionRequestQueue()
     private lazy var peripheralDelegate: Delegate = self.preparedPeripheralDelegate()
     
     // MARK: - Init
     
-    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>) {
-        self.peripheral      = peripheral
-        self.characteristics = characteristics
+    convenience init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>) {
+        self.init(
+            peripheral: peripheral,
+            characteristics: characteristics,
+            commandRequestQueue: CommandRequestQueue(),
+            subscriptionRequestQueue: SubscriptionRequestQueue()
+        )
+    }
+    
+    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, commandRequestQueue: CommandRequestQueue, subscriptionRequestQueue: SubscriptionRequestQueue) {
+        self.peripheral               = peripheral
+        self.characteristics          = characteristics
+        self.commandRequestQueue      = commandRequestQueue
+        self.subscriptionRequestQueue = subscriptionRequestQueue
     }
     
     // MARK: - Actions
     
-    func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>?) {
+    func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>? = nil) {
+        
         switch command.operation {
             case .read(let characteristic):
                 guard let cbCharacteristic = characteristics.first(for: characteristic) else {
-                    completion?(.error(ClientError.incorrectCharacteristic))
+                    completion?(.error(ClientError.incorrectCharacteristicForOperation(characteristic.uuidString)))
                     return
                 }
                 peripheral.readValue(for: cbCharacteristic)
             case .write(let value, let characteristic):
                 guard let cbCharacteristic = characteristics.first(for: characteristic) else {
-                    completion?(.error(ClientError.incorrectCharacteristic))
+                    completion?(.error(ClientError.incorrectCharacteristicForOperation(characteristic.uuidString)))
                     return
                 }
                 let data = command.transformer.transform(valueToData: value)
                 peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
         }
         
-        if let completion = completion {
-            let request = CommandRequest(command: command, completion: completion)
-            commandRequestQueue.add(request: request)
+        if let expectedCharacteristic = command.expectation?.characteristic {
+            guard let _ = characteristics.first(for: expectedCharacteristic) else {
+                completion?(.error(ClientError.incorrectCharacteristicForExpectation(expectedCharacteristic.uuidString)))
+                return
+            }
         }
+        
+        if let completion = completion {
+            if command.expectation == nil || command.expectation?.isEmpty == true {
+                completion(.error(ClientError.missingExpectation))
+                return
+            } else {
+                let request = CommandRequest(command: command, completion: completion)
+                commandRequestQueue.add(request: request)
+            }
+        }
+        
     }
     
     func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {
-//        guard let cbCharacteristic = cbCharacteristic(for: subscription) else {
-//            update(.error(ClientError.incorrectCharacteristic))
-//            return
-//        }
-//        let notification = Notification(subscription: subscription, update: update)
-//        notifier.add(notification: notification)
-//        peripheral.setNotifyValue(true, for: cbCharacteristic)
+        guard let cbCharacteristic = characteristics.first(for: subscription.characteristic) else {
+            update(Result.error(ClientError.incorrectCharacteristicForOperation(subscription.characteristic.uuidString)))
+            return
+        }
+        let request = SubscriptionRequest(subscription: subscription, update: update)
+        subscriptionRequestQueue.add(request: request)
+        peripheral.setNotifyValue(true, for: cbCharacteristic)
     }
     
-    func unregister(subscriptionFor characteristic: Characteristic) {
-        guard let cbCharacteristic = cbCharacteristic(for: characteristic) else {
+    func unregisterSubscription(for characteristic: Characteristic) {
+        guard let cbCharacteristic = characteristics.first(for: characteristic) else {
             return
         }
         subscriptionRequestQueue.removeRequest(for: cbCharacteristic)
@@ -80,17 +106,8 @@ class PeripheralClient {
     
     // MARK: - Private
     
-//    private func cbCharacteristic(for operation: BLEPeripheralOperation) -> CBCharacteristic? {
-//        return cbCharacteristic(for: operation.characteristic)
-//    }
-    
-    private func cbCharacteristic(for characteristic: Characteristic) -> CBCharacteristic? {
-        return nil
-        return characteristics.first(for: characteristic)
-    }
-    
     private func preparedPeripheralDelegate() -> Delegate {
-        
+        //timeouts?, loosing connection?
         let didUpdateAction: Completion<CBCharacteristic> = { characteristic, error in
             if error != nil {
                 let request = self.commandRequestQueue.removeFirstRequst(for: characteristic)

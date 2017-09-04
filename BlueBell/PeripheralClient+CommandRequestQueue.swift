@@ -26,7 +26,7 @@ extension PeripheralClient {
         
         func add(request: BaseCommandRequest) {
             queue.async {
-                let characteristicUUID = request.characteristic.uuidString
+                guard let characteristicUUID = request.characteristic?.uuidString else { return }
                 if let _ = self.requests[characteristicUUID] {
                     self.requests[characteristicUUID]?.append(request)
                 } else {
