@@ -15,6 +15,7 @@ class FakeCBCentralManager: CBCentralManager {
     var scanParameters: (invokes: Int, params: (serviceUUIDs: [CBUUID]?, options: [String : Any]?)?) = (0, nil)
     var stopScanParameters: Int = 0 // counter
     var connectParameters: (invokes: Int, params: (peripheral: CBPeripheral, options: [String : Any]?)?) = (0, nil)
+    var disconnectParameters: (invokes: Int, peripheral: CBPeripheral?) = (0, nil)
     
     var stateResult: CBManagerState? {
         didSet {
@@ -23,6 +24,7 @@ class FakeCBCentralManager: CBCentralManager {
     }
     
     var stubConnectionParams: [String : Error?] = [:] // UUID : Error
+    var stubDisconnectionParams: [String : Error?] = [:] // UUID : Error
     
     private var isScanningResult: Bool = false
     
@@ -58,6 +60,19 @@ class FakeCBCentralManager: CBCentralManager {
                 self.delegate?.centralManager?(self, didFailToConnect: peripheral, error: error)
             } else {
                 self.delegate?.centralManager?(self, didConnect: peripheral)
+            }
+        }
+    }
+    
+    override func cancelPeripheralConnection(_ peripheral: CBPeripheral) {
+        disconnectParameters = (disconnectParameters.invokes + 1, peripheral: peripheral)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let uuidString = peripheral.identifier.uuidString
+            let error      = self.stubDisconnectionParams[uuidString]
+            if let error = error {
+                self.delegate?.centralManager?(self, didDisconnectPeripheral: peripheral, error: error)
+            } else {
+                self.delegate?.centralManager?(self, didDisconnectPeripheral: peripheral, error: nil)
             }
         }
     }

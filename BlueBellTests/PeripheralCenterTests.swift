@@ -133,6 +133,6 @@ class PeripheralCenterTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 1, handler: nil)
-    }
+    }    
     
 }

@@ -244,4 +244,66 @@ class PeripheralCenter_CentralTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
+    // MARK: - Disconnect
+    
+    func testDisconnect_disconnectsToCentralManager() {
+        central.disconnect(stubCBPeripheral, completion: { _ in })
+        XCTAssertEqual(fakeCentralManager.disconnectParameters.invokes, 1)
+        XCTAssertEqual(fakeCentralManager.disconnectParameters.peripheral?.uuidString, "89739652-9C94-4989-A196-BFFBB75A3CDE")
+    }
+    
+    func testDisconnect_invokesCompletionWithSuccess() {
+        let exp = expectation(description: "")
+        central.disconnect(stubCBPeripheral) { result in
+            switch result {
+                case .value(let peripheral):
+                    XCTAssertEqual(peripheral.identifier.uuidString, "89739652-9C94-4989-A196-BFFBB75A3CDE")
+                    exp.fulfill()
+                case .error:
+                    break
+            }
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testDisconnect_invokesCompletionWithError() {
+        let exp   = expectation(description: "")
+        let error = NSError(domain: "test", code: 13, userInfo: nil)
+        fakeCentralManager.stubDisconnectionParams["89739652-9C94-4989-A196-BFFBB75A3CDE"] = error
+        central.disconnect(stubCBPeripheral) { result in
+            switch result {
+                case .value(_):
+                    break
+                case .error(let err):
+                    XCTAssertEqual(err as NSError, error)
+                    exp.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testDisconnect_disconnectingWithTwoPeripherals() {
+        let exp1 = expectation(description: "exp1")
+        let exp2 = expectation(description: "exp2")
+        central.disconnect(stubCBPeripheral) { result in
+            switch result {
+                case .value(let peripheral):
+                    XCTAssertEqual(peripheral.identifier.uuidString, "89739652-9C94-4989-A196-BFFBB75A3CDE")
+                    exp1.fulfill()
+                case .error:
+                    break
+            }
+        }
+        central.disconnect(anotherStubCBPeripheral) { result in
+            switch result {
+                case .value(let peripheral):
+                    XCTAssertEqual(peripheral.identifier.uuidString, "A3028452-A053-42C0-B2B7-D9937AFD1F3A")
+                    exp2.fulfill()
+                case .error:
+                    break
+            }
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
 }

@@ -60,8 +60,8 @@ class PeripheralCenter {
         }
     }
     
-//    func reconnect(client: PeripheralClient) -> PeripheralClient {
-//        
-//    }
+    func disconnect(cbPeripheral: CBPeripheral, completion: @escaping ResultCompletion<CBPeripheral>) {
+        central.disconnect(cbPeripheral, completion: completion)
+    }
     
 }

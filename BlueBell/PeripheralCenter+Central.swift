@@ -28,6 +28,7 @@ extension PeripheralCenter {
         private var waitingScanningRequest: (() -> ())?
         private var updateCompletion: BufferCompletion<PeripheralInfo>?
         private var connectCompletions: [CBPeripheral : ResultCompletion<CBPeripheral>] = [:]
+        private var disconnectCompletions: [CBPeripheral : ResultCompletion<CBPeripheral>] = [:]
         
         // MARK: - Init {
         
@@ -73,6 +74,11 @@ extension PeripheralCenter {
             centralManager.connect(peripheral, options: options)
         }
         
+        func disconnect(_ peripheral: CBPeripheral, completion: @escaping ResultCompletion<CBPeripheral>) {
+            disconnectCompletions[peripheral] = completion
+            centralManager.cancelPeripheralConnection(peripheral)
+        }
+        
         // MARK: - CBCentralManagerDelegate
         
         func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -101,6 +107,15 @@ extension PeripheralCenter {
         func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
             connectCompletions[peripheral]?(Result.error(error ?? CentralError.failedToConnect))
             connectCompletions[peripheral] = nil
+        }
+        
+        func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+            if let error = error {
+                disconnectCompletions[peripheral]?(Result.error(error))
+            } else {
+                disconnectCompletions[peripheral]?(Result.value(peripheral))
+            }
+            disconnectCompletions[peripheral] = nil
         }
         
     }
