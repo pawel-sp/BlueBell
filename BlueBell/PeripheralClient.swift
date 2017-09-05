@@ -17,6 +17,8 @@ class PeripheralClient {
         case incorrectCharacteristicForOperation(String) // it means that characteristic with UUID wasn't discovered and passed to PeripheralClient init
         case incorrectCharacteristicForExpectation(String) // it means that characteristic with UUID wasn't discovered and passed to PeripheralClient init
         case missingExpectation // if you are using completion block in perform method you need to specify expectation, otherwise do not use completion block
+        case deviceNotConnected(CBPeripheralState)
+        case deviceNotResponding // it means either device is disconnected or there no expected updateValue or writeValue response
         
     }
     
@@ -50,6 +52,11 @@ class PeripheralClient {
     // MARK: - Actions
     
     func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>? = nil) {
+        
+        if peripheral.state != .connected {
+            completion?(.error(ClientError.deviceNotConnected(peripheral.state)))
+            return
+        }
         
         switch command.operation {
             case .read(let characteristic):
@@ -87,10 +94,17 @@ class PeripheralClient {
     }
     
     func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {
+        
+        if peripheral.state != .connected {
+            update(.error(ClientError.deviceNotConnected(peripheral.state)))
+            return
+        }
+        
         guard let cbCharacteristic = characteristics.first(for: subscription.characteristic) else {
             update(Result.error(ClientError.incorrectCharacteristicForOperation(subscription.characteristic.uuidString)))
             return
         }
+        
         let request = SubscriptionRequest(subscription: subscription, update: update)
         subscriptionRequestQueue.add(request: request)
         peripheral.setNotifyValue(true, for: cbCharacteristic)

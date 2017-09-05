@@ -75,6 +75,8 @@ class PeripheralClientTests: XCTestCase {
         mockSubscriptionRequestQueue = MockSubscritpionRequestQueue()
         client = PeripheralClient(peripheral: fakeCBPeripheral, characteristics: Set([stubCBCharacteristic1, stubCBCharacteristic2]), commandRequestQueue: mockCommandRequestQueue, subscriptionRequestQueue: mockSubscriptionRequestQueue)
         transformer = Transformer()
+        
+        fakeCBPeripheral.stateResult = .connected
     }
     
     // MARK: - Init
@@ -292,6 +294,39 @@ class PeripheralClientTests: XCTestCase {
         XCTAssertEqual(self.transformer.valueToData, 13)
     }
     
+    func testPerform_deviceIsNotConnected() {
+        fakeCBPeripheral.stateResult = .disconnected
+        let writeChar = StubCharacteristic(_uuidString: "14047276-33BC-4CF9-AC75-5CD111EC213D")
+        let expChar   = StubCharacteristic(_uuidString: "331DE754-BF63-4332-8095-3B84DF4AE654")
+        let command   = PeripheralCommand(
+            operation: .write(13, writeChar),
+            expectation: PeripheralCommand.Expectation(
+                characteristic: expChar,
+                updateValue: { _, _ in return true },
+                writeValue: { _, _ in return true }
+            ),
+            transformer: transformer
+        )
+        let exp = expectation(description: "")
+        client.perform(command: command) { result in
+            switch result {
+                case .value:
+                    break
+                case .error(let error):
+                    switch error as! PeripheralClient.ClientError {
+                    case .deviceNotConnected(let state):
+                        XCTAssertEqual(state, .disconnected)
+                        XCTAssertEqual(self.mockCommandRequestQueue.addedRequests.count, 0)
+                        XCTAssertEqual(self.fakeCBPeripheral.writeValueParameters.invokes, 0)
+                        exp.fulfill()
+                    default:
+                        break
+                    }
+            }
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
     // MARK: - Register subscription
     
     func testRegisterSubscription_incorrectCharacteristic() {
@@ -326,6 +361,30 @@ class PeripheralClientTests: XCTestCase {
         XCTAssertEqual(fakeCBPeripheral.setNotifyParameters.params?.characteristic.uuidString, "14047276-33BC-4CF9-AC75-5CD111EC213D")
         XCTAssertEqual(mockSubscriptionRequestQueue.addedRequest.count, 1)
         XCTAssertEqual(mockSubscriptionRequestQueue.addedRequest[0].characteristic?.uuidString, "14047276-33BC-4CF9-AC75-5CD111EC213D")
+    }
+    
+    func testRegisterSubscription_deviceIsNotConnected() {
+        fakeCBPeripheral.stateResult = .disconnected
+        let char         = StubCharacteristic(_uuidString: "14047276-33BC-4CF9-AC75-5CD111EC213D")
+        let subscription = PeripheralSubscription(characteristic: char, transformer: transformer)
+        let exp          = expectation(description: "")
+        client.register(subscription: subscription) { result in
+            switch result {
+                case .error(let error):
+                    switch error as! PeripheralClient.ClientError {
+                        case .deviceNotConnected(let state):
+                            XCTAssertEqual(state, .disconnected)
+                            XCTAssertEqual(self.fakeCBPeripheral.setNotifyParameters.invokes, 0)
+                            XCTAssertEqual(self.mockSubscriptionRequestQueue.addedRequest.count, 0)
+                            exp.fulfill()
+                        default:
+                            break
+                    }
+                default:
+                    break
+            }
+        }
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     // MARK: - Unregister subscription

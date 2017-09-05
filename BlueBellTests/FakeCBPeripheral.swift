@@ -21,6 +21,8 @@ class FakeCBPeripheral: CBPeripheral {
     var discoverServiceError: Error?
     var discoverCharacteristicError: Error?
     
+    var stateResult: CBPeripheralState?
+    
     private var serviceResult: StubCBService!
     private var stubServices: [StubCBService]?
     
@@ -33,6 +35,10 @@ class FakeCBPeripheral: CBPeripheral {
     }
     
     // MARK: - Overrides
+    
+    override var state: CBPeripheralState {
+        return stateResult ?? super.state
+    }
     
     override var services: [CBService]? {
         return stubServices ?? super.services
