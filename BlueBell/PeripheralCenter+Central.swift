@@ -24,6 +24,7 @@ extension PeripheralCenter {
         // MARK: - Properties
         
         let centralManager: CBCentralManager
+        var centralUpdateState: ((CBManagerState) -> ())?
         
         private var peripherals: [PeripheralInfo] = []
         private var waitingScanningRequest: (() -> ())?
@@ -38,7 +39,7 @@ extension PeripheralCenter {
         }
         
         init(centralManager: CBCentralManager) {
-            self.centralManager = centralManager
+            self.centralManager     = centralManager
             super.init()
             centralManager.delegate = self
         }
@@ -82,6 +83,7 @@ extension PeripheralCenter {
         // MARK: - CBCentralManagerDelegate
         
         func centralManagerDidUpdateState(_ central: CBCentralManager) {
+            centralUpdateState?(central.state)
             switch central.state {
                 case .poweredOn:
                     waitingScanningRequest?()

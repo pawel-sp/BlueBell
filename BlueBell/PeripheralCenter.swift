@@ -8,20 +8,29 @@
 
 import CoreBluetooth
 
+protocol PeripheralCenterDelegate: class {
+    
+    func peripheralCenter(_ peripheralCenter: PeripheralCenter, centralManagerDidUpdateState state: CBManagerState)
+    
+}
+
 class PeripheralCenter {
     
     // MARK: - Properties
 
     static let shared = PeripheralCenter()
     
-    let central: Central
+    private(set) var central: Central!
     let discovererClass: Discoverer.Type
+    
+    weak var delegate: PeripheralCenterDelegate?
     
     // MARK: - Init
     
     init(central: Central, discovererClass: Discoverer.Type) {
         self.central         = central
         self.discovererClass = discovererClass
+        setup()
     }
     
     convenience init(central: Central) {
@@ -30,6 +39,16 @@ class PeripheralCenter {
     
     convenience init() {
         self.init(central: Central())
+    }
+    
+    // MARK: - Setup
+    
+    private func setup() {
+        self.central.centralUpdateState = { [weak self] state in
+            if let sself = self {
+                self?.delegate?.peripheralCenter(sself, centralManagerDidUpdateState: state)
+            }
+        }
     }
     
     // MARK: - Utilities
