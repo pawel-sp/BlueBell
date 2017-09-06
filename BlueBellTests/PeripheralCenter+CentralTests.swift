@@ -331,4 +331,36 @@ class PeripheralCenter_CentralTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
+    // MARK: - CentralUpdateState
+    
+    func testCentralUpdateState_1() {
+        let exp = expectation(description: "")
+        var counter: Int = 0
+        central.centralUpdateState = { state in
+            XCTAssertTrue(state == .poweredOn)
+            counter += 1
+            if counter == 1 {
+                exp.fulfill()
+            }
+        }
+        fakeCentralManager.stateResult = .poweredOn
+        central.centralManagerDidUpdateState(fakeCentralManager)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testCentralUpdateState_2() {
+        let exp = expectation(description: "")
+        var counter: Int = 0
+        central.centralUpdateState = { state in
+            XCTAssertTrue(state == .poweredOff)
+            counter += 1
+            if counter == 1 {
+                exp.fulfill()
+            }
+        }
+        fakeCentralManager.stateResult = .poweredOff
+        central.centralManagerDidUpdateState(fakeCentralManager)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
 }

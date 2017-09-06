@@ -12,6 +12,18 @@ import CoreBluetooth
 
 class PeripheralCenterTests: XCTestCase {
 
+    // MARK: - Helpers
+    
+    class MockCenterDelegate: PeripheralCenterDelegate {
+        
+        var updatedState: (invokes: Int, state: CBManagerState?) = (0, nil)
+        
+        func peripheralCenter(_ peripheralCenter: PeripheralCenter, centralManagerDidUpdateState state: CBManagerState) {
+            updatedState = (updatedState.invokes + 1, state)
+        }
+        
+    }
+    
     // MARK: - Properties
     
     var center: PeripheralCenter!
@@ -21,6 +33,7 @@ class PeripheralCenterTests: XCTestCase {
     var stubCBPeripheral: StubCBPeripheral!
     var peripheralInfo: PeripheralInfo!
     var stubDiscovererClass: StubDiscoverer.Type!
+    var mockDelegate: MockCenterDelegate!
     
     // MARK: - Setup
     
@@ -33,6 +46,9 @@ class PeripheralCenterTests: XCTestCase {
         stubDiscovererClass = StubDiscoverer.self
         center              = PeripheralCenter(central: fakeCentral, discovererClass: stubDiscovererClass)
         stubPeripheral      = StubPeripheral(_services: [])
+        mockDelegate        = MockCenterDelegate()
+        
+        center.delegate = mockDelegate
     }
     
     // MARK: - Init
@@ -133,6 +149,14 @@ class PeripheralCenterTests: XCTestCase {
             }
         }
         waitForExpectations(timeout: 1, handler: nil)
-    }    
+    }
+    
+    // MARK: - Delegate
+    
+    func testDelegate_centralManagerDidUpdateState() {
+        fakeCentral.centralUpdateState?(CBManagerState.resetting)
+        XCTAssertEqual(mockDelegate.updatedState.invokes, 1)
+        XCTAssertEqual(mockDelegate.updatedState.state, CBManagerState.resetting)
+    }
     
 }
