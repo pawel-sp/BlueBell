@@ -14,7 +14,7 @@ extension PeripheralClient {
         
         // MARK: - Properties
         
-        private var requests: [String : [BaseCommandRequest]] = [:] // String : Characteristic UUID
+        private var requests: [String : [(operation: ()->(), request: BaseCommandRequest)]] = [:] // String = Characteristic UUID
         
         // MARK: - Init
         
@@ -24,22 +24,27 @@ extension PeripheralClient {
         
         // MARK: - Utilities
         
-        func add(request: BaseCommandRequest) {
+        func add(operation: @escaping ()->(), for request: BaseCommandRequest) {
+            // if there is no command requests for specific UUID invoke operation immediatelly, otherwise it's gonna be performed after dropping first
             queue.async {
                 guard let characteristicUUID = request.characteristic?.uuidString else { return }
                 if let _ = self.requests[characteristicUUID] {
-                    self.requests[characteristicUUID]?.append(request)
+                    self.requests[characteristicUUID]?.append((operation, request))
                 } else {
-                    self.requests[characteristicUUID] = [request]
+                    self.requests[characteristicUUID] = [(operation, request)]
+                    operation()
                 }
             }
         }
         
         @discardableResult
-        func removeFirstRequst(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
+        func dropFirstRequst(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
             var result: BaseCommandRequest?
-            queue.async {
-                result = self.requests[characteristic.uuidString]?.removeFirst()
+            queue.sync {
+                result = self.requests[characteristic.uuidString]?.removeFirst().request
+                if let first = self.requests[characteristic.uuidString]?.first {
+                    first.operation()
+                }
             }
             return result
         }
@@ -47,7 +52,7 @@ extension PeripheralClient {
         func firstRequest(for characteristic: CBCharacteristic) -> BaseCommandRequest? {
             var request: BaseCommandRequest?
             queue.sync {
-                request = self.requests[characteristic.uuidString]?.first
+                request = self.requests[characteristic.uuidString]?.first?.request
             }
             return request
         }

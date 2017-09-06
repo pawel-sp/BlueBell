@@ -77,16 +77,20 @@ class PeripheralClient {
             completion(.error(ClientError.missingExpectation))
             return
         }
-        switch command.operation {
-            case .read(_):
-                peripheral.readValue(for: cbCharacteristic)
-            case .write(let value, _):
-                let data = command.transformer.transform(valueToData: value)
-                peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
-        }
         if let completion = completion {
             let request = CommandRequest(command: command, completion: completion)
-            commandRequestQueue.add(request: request)
+            commandRequestQueue.add(
+                operation: { [weak self] in
+                    switch command.operation {
+                        case .read(_):
+                            self?.peripheral.readValue(for: cbCharacteristic)
+                        case .write(let value, _):
+                            let data = command.transformer.transform(valueToData: value)
+                            self?.peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
+                    }
+                },
+                for: request
+            )
         }
     }
     
@@ -116,32 +120,32 @@ class PeripheralClient {
     
     private func preparedPeripheralDelegate() -> Delegate {
         
-        let didUpdateAction: Completion<CBCharacteristic> = { characteristic, error in
+        let didUpdateAction: Completion<CBCharacteristic> = { [weak self] characteristic, error in
             if error != nil {
-                let request = self.commandRequestQueue.removeFirstRequst(for: characteristic)
+                let request = self?.commandRequestQueue.dropFirstRequst(for: characteristic)
                 request?.finish(error: error)
             } else {
                 // request
-                guard let data = characteristic.value, let request = self.commandRequestQueue.firstRequest(for: characteristic) else { return }
+                guard let data = characteristic.value, let request = self?.commandRequestQueue.firstRequest(for: characteristic) else { return }
                 if request.process(update: data) == .finished {
                     request.finish(error: nil)
-                    self.commandRequestQueue.removeFirstRequst(for: characteristic)
+                    self?.commandRequestQueue.dropFirstRequst(for: characteristic)
                 }
                 // subscription
-                self.subscriptionRequestQueue.request(for: characteristic)?.perform(for: data, error: error)
+                self?.subscriptionRequestQueue.request(for: characteristic)?.perform(for: data, error: error)
             }
         }
         
-        let didWriteAction: Completion<CBCharacteristic> = { characteristic, error in
+        let didWriteAction: Completion<CBCharacteristic> = { [weak self] characteristic, error in
             if error != nil {
-                let request = self.commandRequestQueue.removeFirstRequst(for: characteristic)
+                let request = self?.commandRequestQueue.dropFirstRequst(for: characteristic)
                 request?.finish(error: error)
             } else {
                 // request
-                guard let data = characteristic.value, let request = self.commandRequestQueue.firstRequest(for: characteristic) else { return }
+                guard let data = characteristic.value, let request = self?.commandRequestQueue.firstRequest(for: characteristic) else { return }
                 if request.process(write: data) == .finished {
                     request.finish(error: nil)
-                    self.commandRequestQueue.removeFirstRequst(for: characteristic)
+                    self?.commandRequestQueue.dropFirstRequst(for: characteristic)
                 }
             }
         }

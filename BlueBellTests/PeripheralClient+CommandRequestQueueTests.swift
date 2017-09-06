@@ -59,34 +59,74 @@ class PeripheralClient_CommandRequestQueueTests: XCTestCase {
         request2                = Request(characteristic: stubCharacteristic2)
     }
     
-    // MARK: - Add & first
+    // MARK: - Tests
     
-    func test() {
+    func testCollectingRequests() {
         // adding first request
-        commandQueue.add(request: request1_1)
+        commandQueue.add(operation: {}, for: request1_1)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_1) as! Request === request1_1)
         XCTAssertNil(commandQueue.firstRequest(for: stubCBCharacteristic2))
         
         // adding another request for the same characteristic
-        commandQueue.add(request: request1_2)
+        commandQueue.add(operation: {}, for: request1_2)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_1) as! Request === request1_1)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_2) as! Request === request1_1)
         
         // adding another request for different characteristic
-        commandQueue.add(request: request2)
+        commandQueue.add(operation: {}, for: request2)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_1) as! Request === request1_1)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_2) as! Request === request1_1)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic2) as! Request === request2)
         
-        // remove first characteristic (right now there are two requests)
-        commandQueue.removeFirstRequst(for: stubCBCharacteristic1_1)
+        // dropping first characteristic (right now there are two requests)
+        commandQueue.dropFirstRequst(for: stubCBCharacteristic1_1)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_1) as! Request === request1_2)
         XCTAssertTrue(commandQueue.firstRequest(for: stubCBCharacteristic1_2) as! Request === request1_2)
         
         // remove last request
-        commandQueue.removeFirstRequst(for: stubCBCharacteristic1_2)
+        commandQueue.dropFirstRequst(for: stubCBCharacteristic1_2)
         XCTAssertNil(commandQueue.firstRequest(for: stubCBCharacteristic1_2))
         XCTAssertNil(commandQueue.firstRequest(for: stubCBCharacteristic1_1))
+    }
+    
+    func testQueuing_1() {
+        // adding first request
+        let exp = expectation(description: "")
+        commandQueue.add(operation: { exp.fulfill() }, for: request1_1)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testQueuing_2() {
+        // adding another request for the same characteristic
+        let exp = expectation(description: "")
+        commandQueue.add(operation: { exp.fulfill() }, for: request1_1)
+        commandQueue.add(operation: { XCTAssertFalse(true) }, for: request1_2)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testQueuing_3() {
+        // after dropping request next operation should invoke automatically
+        let exp1 = expectation(description: "exp1")
+        let exp2 = expectation(description: "exp2")
+        var buffer:[String] = []
+        commandQueue.add(
+            operation: {
+                buffer.append(exp1.description)
+                exp1.fulfill()
+            },
+            for: request1_1
+        )
+        commandQueue.add(
+            operation: {
+                buffer.append(exp2.description)
+                exp2.fulfill()
+            },
+            for: request1_2
+        )
+        commandQueue.dropFirstRequst(for: stubCBCharacteristic1_1)
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(buffer, ["exp1", "exp2"])
+        }
     }
     
 }
