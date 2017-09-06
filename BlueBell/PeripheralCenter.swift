@@ -32,7 +32,7 @@ class PeripheralCenter {
     
     // MARK: - Utilities
     
-    func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping BufferCompletion<PeripheralInfo>) {
+    func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping BufferResultCompletion<PeripheralInfo>) {
         central.scan(for: peripheralInterface, options: options, update: update)
     }
     

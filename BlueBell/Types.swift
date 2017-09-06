@@ -19,9 +19,10 @@ enum Result<Value> {
 
 // MARK: - Typealiases
 
-typealias ResultCompletion<Value> = (Result<Value>)  -> ()
-typealias Completion<Value>       = (Value, Error?)  -> ()
-typealias BufferCompletion<Value> = (Value, [Value]) -> ()
+typealias ResultCompletion<Value>       = (Result<Value>)  -> ()
+typealias Completion<Value>             = (Value, Error?)  -> ()
+typealias BufferCompletion<Value>       = (Value, [Value]) -> ()
+typealias BufferResultCompletion<Value> = (Result<(Value, [Value])>) -> ()
 
 typealias DataReduce = ([Data]) -> Data
 

@@ -47,11 +47,11 @@ class PeripheralCenterTests: XCTestCase {
     
     func testScan_invokesScanningForCentral() {
         let exp = expectation(description: "")
-        let update: BufferCompletion<PeripheralInfo> = { _, _ in
+        let update: BufferResultCompletion<PeripheralInfo> = { _ in
             exp.fulfill()
         }
         center.scan(for: stubPeripheral, options: options, update: update)
-        fakeCentral.scanParameters.params?.update(peripheralInfo, [peripheralInfo])
+        fakeCentral.scanParameters.params?.update(Result.value(peripheralInfo, [peripheralInfo]))
         XCTAssertEqual(fakeCentral.scanParameters.invokes, 1)
         XCTAssertTrue(fakeCentral.scanParameters.params?.peripheralInterface as? StubPeripheral === stubPeripheral)
         XCTAssertTrue(fakeCentral.scanParameters.params!.options! == options)

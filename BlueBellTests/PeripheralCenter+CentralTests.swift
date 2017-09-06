@@ -78,46 +78,61 @@ class PeripheralCenter_CentralTests: XCTestCase {
         central.scan(for: peripheral, options: options) { result in
             switch expectedCount {
                 case 3:
-                    // last one
-                    XCTAssertEqual(result.0.peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
-                    XCTAssertTrue(result.0.advertisementData == ["name" : "1"])
-                    XCTAssertEqual(result.0.rssi, NSNumber(value: 10))
-                    // all discovered
-                    XCTAssertEqual(result.1.count, 1)
-                    XCTAssertEqual(result.1[0].peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
-                    XCTAssertTrue(result.1[0].advertisementData == ["name" : "1"])
-                    XCTAssertEqual(result.1[0].rssi, NSNumber(value: 10))
+                    switch result {
+                        case .value(let result):
+                            // last one
+                            XCTAssertEqual(result.0.peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
+                            XCTAssertTrue(result.0.advertisementData == ["name" : "1"])
+                            XCTAssertEqual(result.0.rssi, NSNumber(value: 10))
+                            // all discovered
+                            XCTAssertEqual(result.1.count, 1)
+                            XCTAssertEqual(result.1[0].peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
+                            XCTAssertTrue(result.1[0].advertisementData == ["name" : "1"])
+                            XCTAssertEqual(result.1[0].rssi, NSNumber(value: 10))
+                        case .error:
+                            XCTAssertFalse(true)
+                    }
                 case 2:
-                    // last one
-                    XCTAssertEqual(result.0.peripheral.uuidString, "4294CA7A-27AB-4F55-A760-F4AD4ADB03F4")
-                    XCTAssertTrue(result.0.advertisementData == ["name" : "3"])
-                    XCTAssertEqual(result.0.rssi, NSNumber(value: 25))
-                    // all discovered
-                    XCTAssertEqual(result.1.count, 2)
-                    XCTAssertEqual(result.1[0].peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
-                    XCTAssertTrue(result.1[0].advertisementData == ["name" : "1"])
-                    XCTAssertEqual(result.1[0].rssi, NSNumber(value: 10))
-                    XCTAssertEqual(result.1[1].peripheral.uuidString, "4294CA7A-27AB-4F55-A760-F4AD4ADB03F4")
-                    XCTAssertTrue(result.1[1].advertisementData == ["name" : "3"])
-                    XCTAssertEqual(result.1[1].rssi, NSNumber(value: 25))
+                    switch result {
+                        case .value(let result):
+                            // last one
+                            XCTAssertEqual(result.0.peripheral.uuidString, "4294CA7A-27AB-4F55-A760-F4AD4ADB03F4")
+                            XCTAssertTrue(result.0.advertisementData == ["name" : "3"])
+                            XCTAssertEqual(result.0.rssi, NSNumber(value: 25))
+                            // all discovered
+                            XCTAssertEqual(result.1.count, 2)
+                            XCTAssertEqual(result.1[0].peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
+                            XCTAssertTrue(result.1[0].advertisementData == ["name" : "1"])
+                            XCTAssertEqual(result.1[0].rssi, NSNumber(value: 10))
+                            XCTAssertEqual(result.1[1].peripheral.uuidString, "4294CA7A-27AB-4F55-A760-F4AD4ADB03F4")
+                            XCTAssertTrue(result.1[1].advertisementData == ["name" : "3"])
+                            XCTAssertEqual(result.1[1].rssi, NSNumber(value: 25))
+                        case .error:
+                            XCTAssertFalse(true)
+                    }
                 case 1:
-                    // last one
-                    XCTAssertEqual(result.0.peripheral.uuidString, "C50C65BE-E41C-445F-9988-6FF1C11F957E")
-                    XCTAssertTrue(result.0.advertisementData == ["name" : "4"])
-                    XCTAssertEqual(result.0.rssi, NSNumber(value: 20))
-                    // all discovered
-                    XCTAssertEqual(result.1.count, 3)
-                    XCTAssertEqual(result.1[0].peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
-                    XCTAssertTrue(result.1[0].advertisementData == ["name" : "1"])
-                    XCTAssertEqual(result.1[0].rssi, NSNumber(value: 10))
-                    XCTAssertEqual(result.1[1].peripheral.uuidString, "4294CA7A-27AB-4F55-A760-F4AD4ADB03F4")
-                    XCTAssertTrue(result.1[1].advertisementData == ["name" : "3"])
-                    XCTAssertEqual(result.1[1].rssi, NSNumber(value: 25))
-                    XCTAssertEqual(result.1[2].peripheral.uuidString, "C50C65BE-E41C-445F-9988-6FF1C11F957E")
-                    XCTAssertTrue(result.1[2].advertisementData == ["name" : "4"])
-                    XCTAssertEqual(result.1[2].rssi, NSNumber(value: 20))
-                    // end
-                    exp.fulfill()
+                    switch result {
+                        case .value(let result):
+                            // last one
+                            XCTAssertEqual(result.0.peripheral.uuidString, "C50C65BE-E41C-445F-9988-6FF1C11F957E")
+                            XCTAssertTrue(result.0.advertisementData == ["name" : "4"])
+                            XCTAssertEqual(result.0.rssi, NSNumber(value: 20))
+                            // all discovered
+                            XCTAssertEqual(result.1.count, 3)
+                            XCTAssertEqual(result.1[0].peripheral.uuidString, "DBB8BB99-6440-4190-8F69-F27AE8867803")
+                            XCTAssertTrue(result.1[0].advertisementData == ["name" : "1"])
+                            XCTAssertEqual(result.1[0].rssi, NSNumber(value: 10))
+                            XCTAssertEqual(result.1[1].peripheral.uuidString, "4294CA7A-27AB-4F55-A760-F4AD4ADB03F4")
+                            XCTAssertTrue(result.1[1].advertisementData == ["name" : "3"])
+                            XCTAssertEqual(result.1[1].rssi, NSNumber(value: 25))
+                            XCTAssertEqual(result.1[2].peripheral.uuidString, "C50C65BE-E41C-445F-9988-6FF1C11F957E")
+                            XCTAssertTrue(result.1[2].advertisementData == ["name" : "4"])
+                            XCTAssertEqual(result.1[2].rssi, NSNumber(value: 20))
+                            // end
+                            exp.fulfill()
+                        case .error:
+                            XCTAssertFalse(true)
+                    }
                 default:
                     break
             }
@@ -148,18 +163,28 @@ class PeripheralCenter_CentralTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
-    func testScan_isAlreadyScanning_stopsScanningAndRunsItAgain() {
+    func testScan_isAlreadyScanning_returnsError() {
         let newPeripheral = StubPeripheral(_services: [
             StubService(_uuidString: "5924CB4D-75B5-435D-9EA4-470A20214810")
         ])
         let options: [String : Any] = ["name" : "value"]
         let newOptions: [String : Any] = ["name2" : "value2"]
+        let exp = expectation(description: "")
         central.scan(for: peripheral, options: options, update: { _ in })
-        central.scan(for: newPeripheral, options: newOptions, update: { _ in })
-        XCTAssertEqual(fakeCentralManager.stopScanParameters, 1)
-        XCTAssertEqual(fakeCentralManager.scanParameters.invokes, 2)
-        XCTAssertEqual(fakeCentralManager.scanParameters.params!.serviceUUIDs!.map({ $0.uuidString }), ["5924CB4D-75B5-435D-9EA4-470A20214810"])
-        XCTAssertTrue(newOptions == fakeCentralManager.scanParameters.params!.options!)
+        central.scan(for: newPeripheral, options: newOptions, update: { result in
+            switch result {
+                case .error(let error):
+                    switch error as! PeripheralCenter.Central.CentralError {
+                        case .scanningIsAreadyOn:
+                            exp.fulfill()
+                        default:
+                            break
+                    }
+                default:
+                    break
+            }
+        })
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
     // MARK: - Stop scan

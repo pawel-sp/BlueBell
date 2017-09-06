@@ -13,7 +13,7 @@ class FakeCentral: PeripheralCenter.Central {
     
     // MARK: - Properties
     
-    var scanParameters: (invokes: Int, params: (peripheralInterface: Peripheral, options: [String : Any]?, update: (PeripheralInfo, [PeripheralInfo]) -> ())?) = (0, nil)
+    var scanParameters: (invokes: Int, params: (peripheralInterface: Peripheral, options: [String : Any]?, update: (Result<(PeripheralInfo, [PeripheralInfo])>) -> ())?) = (0, nil)
     var stopScanParameters: Int = 0 // invokes
     var connectParameters: (invokes: Int, params: (peripheral: CBPeripheral, options: [String : Any]?, completion: (Result<CBPeripheral>) -> ())?) = (0, nil)
     
@@ -21,7 +21,7 @@ class FakeCentral: PeripheralCenter.Central {
     
     // MARK: - Overrides
     
-    override func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping (PeripheralInfo, [PeripheralInfo]) -> ()) {
+    override func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping (Result<(PeripheralInfo, [PeripheralInfo])>) -> ()) {
         scanParameters = (invokes: scanParameters.invokes + 1, params: (peripheralInterface, options, update))
     }
     

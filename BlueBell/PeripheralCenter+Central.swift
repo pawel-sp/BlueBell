@@ -16,7 +16,8 @@ extension PeripheralCenter {
         
         enum CentralError: Error {
             
-            case failedToConnect
+            case failedToConnect // when connection to device failed
+            case scanningIsAreadyOn // when you are trying scanning but that method was invoked before without stopScan()
             
         }
         
@@ -26,7 +27,7 @@ extension PeripheralCenter {
         
         private var peripherals: [PeripheralInfo] = []
         private var waitingScanningRequest: (() -> ())?
-        private var updateCompletion: BufferCompletion<PeripheralInfo>?
+        private var updateCompletion: BufferResultCompletion<PeripheralInfo>?
         private var connectCompletions: [CBPeripheral : ResultCompletion<CBPeripheral>] = [:]
         private var disconnectCompletions: [CBPeripheral : ResultCompletion<CBPeripheral>] = [:]
         
@@ -48,10 +49,9 @@ extension PeripheralCenter {
         
         // MARK: - Utilities
         
-        func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping BufferCompletion<PeripheralInfo>) {
+        func scan(for peripheralInterface: Peripheral, options: [String : Any]?, update: @escaping BufferResultCompletion<PeripheralInfo>) {
             if centralManager.isScanning {
-                stopScan()
-                scan(for: peripheralInterface, options: options, update: update)
+                update(Result.error(CentralError.scanningIsAreadyOn))
             } else if centralManager.state != .poweredOn {
                 waitingScanningRequest = { [weak self] in
                     self?.scan(for: peripheralInterface, options:options, update: update)
@@ -95,7 +95,7 @@ extension PeripheralCenter {
             let newPeripheral = PeripheralInfo(peripheral: peripheral, advertisementData: advertisementData, rssi: RSSI)
             if !peripherals.contains(newPeripheral) {
                 peripherals.append(newPeripheral)
-                updateCompletion?(newPeripheral, peripherals)
+                updateCompletion?(Result.value(newPeripheral, peripherals))
             }
         }
         
