@@ -53,44 +53,39 @@ class PeripheralClient {
     
     func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>? = nil) {
         
-        if peripheral.state != .connected {
+        guard peripheral.state == .connected else {
             completion?(.error(ClientError.deviceNotConnected(peripheral.state)))
             return
         }
         
+        guard let cbCharacteristic = characteristics.first(for: command.operation.characteristic) else {
+            completion?(.error(ClientError.incorrectCharacteristicForOperation(command.operation.characteristic.uuidString)))
+            return
+        }
+        
+        if let expectedCharacteristic = command.expectation?.characteristic, characteristics.first(for: expectedCharacteristic) == nil {
+            completion?(.error(ClientError.incorrectCharacteristicForExpectation(expectedCharacteristic.uuidString)))
+            return
+        }
+        
+        if let completion = completion, (command.expectation == nil || command.expectation?.isEmpty == true) {
+            completion(.error(ClientError.missingExpectation))
+            return
+        }
+        
         switch command.operation {
-            case .read(let characteristic):
-                guard let cbCharacteristic = characteristics.first(for: characteristic) else {
-                    completion?(.error(ClientError.incorrectCharacteristicForOperation(characteristic.uuidString)))
-                    return
-                }
+            case .read(_):
                 peripheral.readValue(for: cbCharacteristic)
-            case .write(let value, let characteristic):
-                guard let cbCharacteristic = characteristics.first(for: characteristic) else {
-                    completion?(.error(ClientError.incorrectCharacteristicForOperation(characteristic.uuidString)))
-                    return
-                }
+            case .write(let value, _):
                 let data = command.transformer.transform(valueToData: value)
                 peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
         }
         
-        if let expectedCharacteristic = command.expectation?.characteristic {
-            guard let _ = characteristics.first(for: expectedCharacteristic) else {
-                completion?(.error(ClientError.incorrectCharacteristicForExpectation(expectedCharacteristic.uuidString)))
-                return
-            }
-        }
-        
         if let completion = completion {
-            if command.expectation == nil || command.expectation?.isEmpty == true {
-                completion(.error(ClientError.missingExpectation))
-                return
-            } else {
-                let request = CommandRequest(command: command, completion: completion)
-                commandRequestQueue.add(request: request)
-            }
+            let request = CommandRequest(command: command, completion: completion)
+            commandRequestQueue.add(request: request)
         }
-        
+    
     }
     
     func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {

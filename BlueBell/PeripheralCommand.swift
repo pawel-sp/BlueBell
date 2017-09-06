@@ -66,3 +66,16 @@ extension PeripheralCommand.Expectation {
     }
     
 }
+
+extension PeripheralCommand.Operation {
+    
+    var characteristic: Characteristic {
+        switch self {
+            case .read(let characteristic):
+                return characteristic
+            case .write(_, let characteristic):
+                return characteristic
+        }
+    }
+    
+}
