@@ -110,12 +110,15 @@ extension PeripheralCenter {
         }
         
         func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+            // for disconnect method flow
             if let error = error {
                 disconnectCompletions[peripheral]?(Result.error(error))
             } else {
                 disconnectCompletions[peripheral]?(Result.value(peripheral))
             }
             disconnectCompletions[peripheral] = nil
+            // for peripheral disconnection flow (for example when device would disconnect by itseld)
+            peripheral.extendedDelegate?.peripheral(peripheral, didDisconnectError: error)
         }
         
     }

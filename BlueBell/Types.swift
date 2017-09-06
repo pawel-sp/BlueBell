@@ -19,6 +19,7 @@ enum Result<Value> {
 
 // MARK: - Typealiases
 
+typealias ErrorCompletion               = (Error?) -> ()
 typealias ResultCompletion<Value>       = (Result<Value>)  -> ()
 typealias Completion<Value>             = (Value, Error?)  -> ()
 typealias BufferCompletion<Value>       = (Value, [Value]) -> ()

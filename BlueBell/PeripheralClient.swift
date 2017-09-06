@@ -8,6 +8,12 @@
 
 import CoreBluetooth
 
+protocol PeripheralClientDelegate: class {
+    
+    func peripheralClient(_ peripheralClient: PeripheralClient, didDisconnectError: Error?)
+    
+}
+
 class PeripheralClient {
     
     // MARK: - Enums
@@ -24,12 +30,14 @@ class PeripheralClient {
     
     // MARK: - Properties
     
+    weak var delegate: PeripheralClientDelegate?
+    
     let peripheral: CBPeripheral
     let characteristics: Set<CBCharacteristic>
     let commandRequestQueue: CommandRequestQueue
     let subscriptionRequestQueue: SubscriptionRequestQueue
     
-    private lazy var peripheralDelegate: Delegate = self.preparedPeripheralDelegate()
+    private var peripheralDelegate: Delegate!
     
     // MARK: - Init
     
@@ -47,6 +55,7 @@ class PeripheralClient {
         self.characteristics          = characteristics
         self.commandRequestQueue      = commandRequestQueue
         self.subscriptionRequestQueue = subscriptionRequestQueue
+        self.peripheralDelegate       = self.preparedPeripheralDelegate()
     }
     
     // MARK: - Actions
@@ -147,10 +156,17 @@ class PeripheralClient {
             }
         }
         
+        let didDisconnect: ErrorCompletion = { [weak self] error in
+            if let sself = self {
+                self?.delegate?.peripheralClient(sself, didDisconnectError: error)
+            }
+        }
+        
         return Delegate(
             peripheral: peripheral,
             didUpdateValue: didUpdateAction,
-            didWriteValue: didWriteAction
+            didWriteValue: didWriteAction,
+            didDisconnect: didDisconnect
         )
     }
     

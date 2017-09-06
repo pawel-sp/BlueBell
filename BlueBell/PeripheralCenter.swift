@@ -12,6 +12,8 @@ class PeripheralCenter {
     
     // MARK: - Properties
 
+    static let shared = PeripheralCenter()
+    
     let central: Central
     let discovererClass: Discoverer.Type
     

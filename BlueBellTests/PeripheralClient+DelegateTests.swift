@@ -33,12 +33,15 @@ class PeripheralClient_DelegateTests: XCTestCase {
         let updateBlock: Completion<CBCharacteristic> = { _ in updateExp.fulfill() }
         let writeExp = expectation(description: "WriteValue")
         let writeBlock: Completion<CBCharacteristic> = { _ in writeExp.fulfill() }
-        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: updateBlock, didWriteValue: writeBlock)
+        let discExp = expectation(description: "Disconnect")
+        let discBlock: ErrorCompletion = { _ in discExp.fulfill() }
+        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: updateBlock, didWriteValue: writeBlock, didDisconnect: discBlock)
         delegate.didUpdateValue?(stubCBCharacteristic, nil)
         delegate.didWriteValue?(stubCBCharacteristic, nil)
+        delegate.didDisconnect?(nil)
         XCTAssertEqual(delegate.peripheral, stubCBPeripheral)
-        XCTAssertTrue(delegate.peripheral.delegate === delegate)
-        wait(for: [updateExp, writeExp], timeout: 1)
+        XCTAssertTrue(delegate.peripheral.extendedDelegate === delegate)
+        wait(for: [updateExp, writeExp, discExp], timeout: 1)
     }
     
     // MARK: - Blocks 
@@ -51,7 +54,7 @@ class PeripheralClient_DelegateTests: XCTestCase {
             XCTAssertEqual(characteristic, self.stubCBCharacteristic)
             updateExp.fulfill()
         }
-        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: updateBlock, didWriteValue: nil)
+        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: updateBlock, didWriteValue: nil, didDisconnect: nil)
         delegate.peripheral(stubCBPeripheral, didUpdateValueFor: stubCBCharacteristic, error: nserror)
         waitForExpectations(timeout: 1, handler: nil)
     }
@@ -64,8 +67,20 @@ class PeripheralClient_DelegateTests: XCTestCase {
             XCTAssertEqual(characteristic, self.stubCBCharacteristic)
             writeExp.fulfill()
         }
-        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: nil, didWriteValue: writeBlock)
+        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: nil, didWriteValue: writeBlock, didDisconnect: nil)
         delegate.peripheral(stubCBPeripheral, didWriteValueFor: stubCBCharacteristic, error: nserror)
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testDisconnectBlock() {
+        let discExp = expectation(description: "Disconnect")
+        let nserror   = NSError(domain: "test", code: 1, userInfo: nil)
+        let discBlock: ErrorCompletion = { error in
+            XCTAssertTrue(error! as NSError === nserror)
+            discExp.fulfill()
+        }
+        let delegate = PeripheralClient.Delegate(peripheral: stubCBPeripheral, didUpdateValue: nil, didWriteValue: nil, didDisconnect: discBlock)
+        delegate.peripheral(stubCBPeripheral, didDisconnectError: nserror)
         waitForExpectations(timeout: 1, handler: nil)
     }
     

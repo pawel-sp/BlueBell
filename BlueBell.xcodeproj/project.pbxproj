@@ -31,6 +31,8 @@
 		A42ADE6B1F505B9000B1DEFC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42ADE6A1F505B9000B1DEFC /* Extensions.swift */; };
 		A453BDC21F5D4C2A00313380 /* ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453BDC11F5D4C2A00313380 /* ExtensionsTests.swift */; };
 		A453BDC41F5D564900313380 /* PeripheralClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A453BDC31F5D564900313380 /* PeripheralClientTests.swift */; };
+		A46230981F5FDDDB007DA947 /* ExtendedCBPeripheralDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46230971F5FDDDB007DA947 /* ExtendedCBPeripheralDelegate.swift */; };
+		A462309B1F5FE26C007DA947 /* DisconnectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A462309A1F5FE26C007DA947 /* DisconnectionTests.swift */; };
 		A4A8F2921F559ACF00D99C85 /* StubCBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2911F559ACF00D99C85 /* StubCBService.swift */; };
 		A4A8F2941F55A28800D99C85 /* StubCBCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2931F55A28800D99C85 /* StubCBCharacteristic.swift */; };
 		A4A8F2961F55B1F800D99C85 /* PeripheralCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */; };
@@ -92,6 +94,8 @@
 		A42ADE6A1F505B9000B1DEFC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A453BDC11F5D4C2A00313380 /* ExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsTests.swift; sourceTree = "<group>"; };
 		A453BDC31F5D564900313380 /* PeripheralClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralClientTests.swift; sourceTree = "<group>"; };
+		A46230971F5FDDDB007DA947 /* ExtendedCBPeripheralDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedCBPeripheralDelegate.swift; sourceTree = "<group>"; };
+		A462309A1F5FE26C007DA947 /* DisconnectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisconnectionTests.swift; sourceTree = "<group>"; };
 		A4A8F2911F559ACF00D99C85 /* StubCBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBService.swift; sourceTree = "<group>"; };
 		A4A8F2931F55A28800D99C85 /* StubCBCharacteristic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StubCBCharacteristic.swift; sourceTree = "<group>"; };
 		A4A8F2951F55B1F800D99C85 /* PeripheralCenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralCenterTests.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 		A42ADDF71F4F1CCF00B1DEFC /* BlueBell */ = {
 			isa = PBXGroup;
 			children = (
+				A46230941F5FDCBB007DA947 /* Core Bluetooth ext */,
 				A42ADE621F502E5B00B1DEFC /* Common */,
 				A42ADE0F1F4F1D5D00B1DEFC /* Models */,
 				A42ADE121F4F1D8800B1DEFC /* Operations */,
@@ -193,6 +198,7 @@
 				A4FEB6821F56E15900E066A9 /* Common */,
 				A4FEB67B1F56B13E00E066A9 /* Client */,
 				A4F76EF91F54098500A9E515 /* Center */,
+				A46230991F5FE259007DA947 /* Client + Center */,
 				A42ADE051F4F1CCF00B1DEFC /* Info.plist */,
 			);
 			path = BlueBellTests;
@@ -247,6 +253,22 @@
 				A42ADE6A1F505B9000B1DEFC /* Extensions.swift */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		A46230941F5FDCBB007DA947 /* Core Bluetooth ext */ = {
+			isa = PBXGroup;
+			children = (
+				A46230971F5FDDDB007DA947 /* ExtendedCBPeripheralDelegate.swift */,
+			);
+			name = "Core Bluetooth ext";
+			sourceTree = "<group>";
+		};
+		A46230991F5FE259007DA947 /* Client + Center */ = {
+			isa = PBXGroup;
+			children = (
+				A462309A1F5FE26C007DA947 /* DisconnectionTests.swift */,
+			);
+			name = "Client + Center";
 			sourceTree = "<group>";
 		};
 		A4C2B0191F58298A003F2522 /* Subscription */ = {
@@ -470,6 +492,7 @@
 				A4C2B0211F583A56003F2522 /* BaseRequestQueue.swift in Sources */,
 				A42ADE211F5014A800B1DEFC /* PeripheralClient+CommandRequestQueue.swift in Sources */,
 				A42ADE161F4F1DC300B1DEFC /* PeripheralCommand.swift in Sources */,
+				A46230981F5FDDDB007DA947 /* ExtendedCBPeripheralDelegate.swift in Sources */,
 				A4FEB6891F56E6BA00E066A9 /* BaseRequest.swift in Sources */,
 				A42ADE6B1F505B9000B1DEFC /* Extensions.swift in Sources */,
 				A42ADE111F4F1D7900B1DEFC /* Characteristic.swift in Sources */,
@@ -511,6 +534,7 @@
 				A4F76F031F5427F300A9E515 /* StubService.swift in Sources */,
 				A4C2B0291F5844FB003F2522 /* MockDispatchQueue.swift in Sources */,
 				A4A8F2941F55A28800D99C85 /* StubCBCharacteristic.swift in Sources */,
+				A462309B1F5FE26C007DA947 /* DisconnectionTests.swift in Sources */,
 				A4F30B3B1F5451B90044EB1B /* Operators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

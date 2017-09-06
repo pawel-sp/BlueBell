@@ -10,20 +10,27 @@ import CoreBluetooth
 
 extension PeripheralClient {
     
-    class Delegate: NSObject, CBPeripheralDelegate {
+    class Delegate: NSObject, ExtendedCBPeripheralDelegate {
         
         // MARK: - Properties
         
         let didUpdateValue: Completion<CBCharacteristic>?
         let didWriteValue: Completion<CBCharacteristic>?
+        let didDisconnect: ErrorCompletion?
         let peripheral: CBPeripheral
         
-        init(peripheral: CBPeripheral, didUpdateValue: Completion<CBCharacteristic>?, didWriteValue: Completion<CBCharacteristic>?) {
+        init(
+            peripheral: CBPeripheral,
+            didUpdateValue: Completion<CBCharacteristic>?,
+            didWriteValue: Completion<CBCharacteristic>?,
+            didDisconnect: ErrorCompletion?
+        ) {
             self.peripheral     = peripheral
             self.didUpdateValue = didUpdateValue
             self.didWriteValue  = didWriteValue
+            self.didDisconnect  = didDisconnect
             super.init()
-            peripheral.delegate = self
+            peripheral.extendedDelegate = self
         }
         
         // MARK: - CBPeripheralDelegate
@@ -34,6 +41,10 @@ extension PeripheralClient {
         
         func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
             didWriteValue?(characteristic, error)
+        }
+        
+        func peripheral(_ peripheral: CBPeripheral, didDisconnectError: Error?) {
+            didDisconnect?(didDisconnectError)
         }
         
     }
