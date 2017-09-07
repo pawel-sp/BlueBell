@@ -57,6 +57,18 @@ extension PeripheralClient {
             return request
         }
         
+        func reset() {
+            requests.removeAll()
+        }
+        
+        var allRequests: [BaseCommandRequest] {
+            return requests.map({ $0.value.map({ $0.request }) }).flatMap({ $0 })
+        }
+        
+        var isEmpty: Bool {
+            return requests.count == 0
+        }
+        
     }
     
 }

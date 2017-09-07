@@ -59,7 +59,7 @@ class PeripheralClient_CommandRequestQueueTests: XCTestCase {
         request2                = Request(characteristic: stubCharacteristic2)
     }
     
-    // MARK: - Tests
+    // MARK: - Add, drop, first
     
     func testCollectingRequests() {
         // adding first request
@@ -127,6 +127,30 @@ class PeripheralClient_CommandRequestQueueTests: XCTestCase {
         waitForExpectations(timeout: 1) { _ in
             XCTAssertEqual(buffer, ["exp1", "exp2"])
         }
+    }
+    
+    // MARK: - Reset & isEmpty
+    
+    func testReset_removesAllRequests() {
+        XCTAssertTrue(commandQueue.isEmpty)
+        commandQueue.add(operation: {}, for: request1_1)
+        commandQueue.add(operation: {}, for: request1_2)
+        commandQueue.add(operation: {}, for: request2)
+        XCTAssertFalse(commandQueue.isEmpty)
+        commandQueue.reset()
+        XCTAssertTrue(commandQueue.isEmpty)
+    }
+    
+    // MARK: - All requests
+    
+    func testAllRequests_returnsAllRequests() {
+        commandQueue.add(operation: {}, for: request1_1)
+        commandQueue.add(operation: {}, for: request1_2)
+        commandQueue.add(operation: {}, for: request2)
+        XCTAssertEqual(commandQueue.allRequests.count, 3)
+        XCTAssertTrue(commandQueue.allRequests[0] as! Request === request1_1)
+        XCTAssertTrue(commandQueue.allRequests[1] as! Request === request1_2)
+        XCTAssertTrue(commandQueue.allRequests[2] as! Request === request2)
     }
     
 }

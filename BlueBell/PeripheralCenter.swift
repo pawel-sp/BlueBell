@@ -61,7 +61,7 @@ class PeripheralCenter {
         central.stopScan()
     }
 
-    func connect(to cbPeripheral: CBPeripheral, peripheralInterface: Peripheral, options: [String : Any]?, completion: @escaping ResultCompletion<PeripheralClient>) {
+    func connect(to cbPeripheral: CBPeripheral, peripheralInterface: Peripheral, options: [String : Any]?, clientConfig: PeripheralClient.Config = .default, completion: @escaping ResultCompletion<PeripheralClient>) {
         central.connect(to: cbPeripheral, options: options) { connectResult in
             switch connectResult {
                 case .value(let value):
@@ -69,7 +69,7 @@ class PeripheralCenter {
                     discoverer.loadCharacteristics() { characteristicsResult in
                         switch characteristicsResult {
                             case .value(let characteristics):
-                                let client = PeripheralClient(peripheral: cbPeripheral, characteristics: characteristics)
+                                let client = PeripheralClient(peripheral: cbPeripheral, characteristics: characteristics, config: clientConfig)
                                 completion(Result.value(client))
                             case .error(let error):
                                 completion(Result.error(error))

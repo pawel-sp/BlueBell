@@ -36,26 +36,36 @@ class PeripheralClient {
     let characteristics: Set<CBCharacteristic>
     let commandRequestQueue: CommandRequestQueue
     let subscriptionRequestQueue: SubscriptionRequestQueue
+    let config: Config
     
+    private var watchdog: Watchdog!
     private var peripheralDelegate: Delegate!
     
     // MARK: - Init
     
-    convenience init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>) {
+    convenience init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, config: Config = .default) {
         self.init(
             peripheral: peripheral,
             characteristics: characteristics,
             commandRequestQueue: CommandRequestQueue(),
-            subscriptionRequestQueue: SubscriptionRequestQueue()
+            subscriptionRequestQueue: SubscriptionRequestQueue(),
+            config: config
         )
     }
     
-    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, commandRequestQueue: CommandRequestQueue, subscriptionRequestQueue: SubscriptionRequestQueue) {
+    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, commandRequestQueue: CommandRequestQueue, subscriptionRequestQueue: SubscriptionRequestQueue, config: Config = .default) {
         self.peripheral               = peripheral
         self.characteristics          = characteristics
         self.commandRequestQueue      = commandRequestQueue
         self.subscriptionRequestQueue = subscriptionRequestQueue
+        self.config                   = config
+        
         self.peripheralDelegate       = self.preparedPeripheralDelegate()
+        self.watchdog                 = self.preparedWatchdog()
+    }
+    
+    deinit {
+        self.watchdog.stop()
     }
     
     // MARK: - Actions
@@ -88,6 +98,8 @@ class PeripheralClient {
                             let data = command.transformer.transform(valueToData: value)
                             self?.peripheral.writeValue(data, for: cbCharacteristic, type: .withResponse)
                     }
+                    // here we know for for sure every command inside the queue has expectation - it's necessary, otherwise watchdog would invoke timeout block because delegate's method won't stop it.
+                    self?.watchdog.carryOn()
                 },
                 for: request
             )
@@ -130,10 +142,13 @@ class PeripheralClient {
                 if request.process(update: data) == .finished {
                     request.finish(error: nil)
                     self?.commandRequestQueue.dropFirstRequst(for: characteristic)
+                    
                 }
                 // subscription
                 self?.subscriptionRequestQueue.request(for: characteristic)?.perform(for: data, error: error)
             }
+            // watchdog
+            self?.verifyWatchdog()
         }
         
         let didWriteAction: Completion<CBCharacteristic> = { [weak self] characteristic, error in
@@ -148,6 +163,8 @@ class PeripheralClient {
                     self?.commandRequestQueue.dropFirstRequst(for: characteristic)
                 }
             }
+            // watchdog
+            self?.verifyWatchdog()
         }
         
         let didDisconnect: ErrorCompletion = { [weak self] error in
@@ -162,6 +179,26 @@ class PeripheralClient {
             didWriteValue: didWriteAction,
             didDisconnect: didDisconnect
         )
+    }
+    
+    private func preparedWatchdog() -> Watchdog {
+        return Watchdog(
+            barrier: { [weak self] in
+                self?.commandRequestQueue.allRequests.forEach({ request in
+                    request.finish(error: ClientError.deviceNotResponding)
+                })
+                self?.commandRequestQueue.reset()
+            },
+            timeout: config.commandsTimeout
+        )
+    }
+    
+    private func verifyWatchdog() {
+        if commandRequestQueue.isEmpty {
+            watchdog.stop()
+        } else {
+            watchdog.carryOn()
+        }
     }
     
 }
