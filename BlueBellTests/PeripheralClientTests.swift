@@ -73,7 +73,7 @@ class PeripheralClientTests: XCTestCase {
         stubCBCharacteristic2        = StubCBCharacteristic(stubIdentifier: CBUUID(string: "331DE754-BF63-4332-8095-3B84DF4AE654"))
         mockCommandRequestQueue      = MockCommandRequestQueue()
         mockSubscriptionRequestQueue = MockSubscritpionRequestQueue()
-        client                       = PeripheralClient(peripheral: fakeCBPeripheral, characteristics: Set([stubCBCharacteristic1, stubCBCharacteristic2]), commandRequestQueue: mockCommandRequestQueue, subscriptionRequestQueue: mockSubscriptionRequestQueue)
+        client                       = PeripheralClient(peripheral: fakeCBPeripheral, characteristics: Set([stubCBCharacteristic1, stubCBCharacteristic2]), commandRequestQueue: mockCommandRequestQueue, subscriptionRequestQueue: mockSubscriptionRequestQueue, deconnect: { _ in })
         transformer                  = Transformer()
         
         fakeCBPeripheral.stateResult = .connected

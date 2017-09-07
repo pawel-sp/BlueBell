@@ -16,6 +16,7 @@ class FakeCentral: PeripheralCenter.Central {
     var scanParameters: (invokes: Int, params: (peripheralInterface: Peripheral, options: [String : Any]?, update: (Result<(PeripheralInfo, [PeripheralInfo])>) -> ())?) = (0, nil)
     var stopScanParameters: Int = 0 // invokes
     var connectParameters: (invokes: Int, params: (peripheral: CBPeripheral, options: [String : Any]?, completion: (Result<CBPeripheral>) -> ())?) = (0, nil)
+    var disconnectParameters: (invokes: Int, peripheral: CBPeripheral?) = (0, nil)
     
     var connectionResult: Result<CBPeripheral>?
     
@@ -34,6 +35,10 @@ class FakeCentral: PeripheralCenter.Central {
         if let result = connectionResult {
             completion(result)
         }
+    }
+    
+    override func disconnect(_ peripheral: CBPeripheral, completion: ((Result<CBPeripheral>) -> ())?) {
+        disconnectParameters = (invokes: disconnectParameters.invokes + 1, peripheral: peripheral)
     }
     
 }

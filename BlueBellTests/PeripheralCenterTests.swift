@@ -151,6 +151,25 @@ class PeripheralCenterTests: XCTestCase {
         waitForExpectations(timeout: 1, handler: nil)
     }
     
+    func testConnect_clientInvokesDeconnectWhenIsDeallocating() {
+        let set: Set<StubCBCharacteristic> = Set()
+        fakeCentral.connectionResult = Result.value(stubCBPeripheral)
+        stubDiscovererClass.loadCharacteristicsResult = Result.value(set)
+        let block = {
+            self.center.connect(to: self.stubCBPeripheral, peripheralInterface: self.stubPeripheral, options: self.options) { result in
+                switch result {
+                    case .value(let client):
+                        _ = client
+                    case .error:
+                        break
+                }
+            }
+        }
+        block() // client should deallocate immediatelly
+        XCTAssertEqual(fakeCentral.disconnectParameters.invokes, 1)
+        XCTAssertEqual(fakeCentral.disconnectParameters.peripheral?.uuidString, "55866811-9FCA-4AE0-96D5-41799D825121")
+    }
+    
     // MARK: - Delegate
     
     func testDelegate_centralManagerDidUpdateState() {

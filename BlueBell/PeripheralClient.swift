@@ -37,27 +37,30 @@ public class PeripheralClient {
     let commandRequestQueue: CommandRequestQueue
     let subscriptionRequestQueue: SubscriptionRequestQueue
     let config: Config
+    let deconnect: ValueCompletion<CBPeripheral>
     
     private var watchdog: Watchdog!
     private var peripheralDelegate: Delegate!
     
     // MARK: - Init
     
-    convenience init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, config: Config = .default) {
+    convenience init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, deconnect: @escaping ValueCompletion<CBPeripheral>, config: Config = .default) {
         self.init(
             peripheral: peripheral,
             characteristics: characteristics,
             commandRequestQueue: CommandRequestQueue(),
             subscriptionRequestQueue: SubscriptionRequestQueue(),
+            deconnect: deconnect,
             config: config
         )
     }
     
-    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, commandRequestQueue: CommandRequestQueue, subscriptionRequestQueue: SubscriptionRequestQueue, config: Config = .default) {
+    init(peripheral: CBPeripheral, characteristics: Set<CBCharacteristic>, commandRequestQueue: CommandRequestQueue, subscriptionRequestQueue: SubscriptionRequestQueue, deconnect: @escaping ValueCompletion<CBPeripheral>, config: Config = .default) {
         self.peripheral               = peripheral
         self.characteristics          = characteristics
         self.commandRequestQueue      = commandRequestQueue
         self.subscriptionRequestQueue = subscriptionRequestQueue
+        self.deconnect                = deconnect
         self.config                   = config
         
         self.peripheralDelegate       = self.preparedPeripheralDelegate()
@@ -65,8 +68,9 @@ public class PeripheralClient {
     }
     
     deinit {
-        self.commandRequestQueue.reset()
-        self.watchdog.stop()
+        commandRequestQueue.reset()
+        watchdog.stop()
+        deconnect(peripheral)
     }
     
     // MARK: - Actions

@@ -69,7 +69,15 @@ public class PeripheralCenter {
                     discoverer.loadCharacteristics() { characteristicsResult in
                         switch characteristicsResult {
                             case .value(let characteristics):
-                                let client = PeripheralClient(peripheral: cbPeripheral, characteristics: characteristics, config: clientConfig)
+                                let client = PeripheralClient(
+                                    peripheral: cbPeripheral,
+                                    characteristics: characteristics,
+                                    deconnect: { peripheral in
+                                        // there is no weak self - it's singletone anyway
+                                        self.disconnect(cbPeripheral: peripheral, completion: nil)
+                                    },
+                                    config: clientConfig
+                                )
                                 completion(Result.value(client))
                             case .error(let error):
                                 completion(Result.error(error))
@@ -81,7 +89,7 @@ public class PeripheralCenter {
         }
     }
     
-    public  func disconnect(cbPeripheral: CBPeripheral, completion: @escaping ResultCompletion<CBPeripheral>) {
+    public func disconnect(cbPeripheral: CBPeripheral, completion: ResultCompletion<CBPeripheral>?) {
         central.disconnect(cbPeripheral, completion: completion)
     }
     

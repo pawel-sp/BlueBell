@@ -75,7 +75,7 @@ extension PeripheralCenter {
             centralManager.connect(peripheral, options: options)
         }
         
-        func disconnect(_ peripheral: CBPeripheral, completion: @escaping ResultCompletion<CBPeripheral>) {
+        func disconnect(_ peripheral: CBPeripheral, completion: ResultCompletion<CBPeripheral>?) {
             disconnectCompletions[peripheral] = completion
             centralManager.cancelPeripheralConnection(peripheral)
         }

@@ -36,7 +36,7 @@ class DisconnectionTests: XCTestCase {
     override func setUp() {
         super.setUp()
         stubCBPeripheral   = StubCBPeripheral(stubIdentifier: UUID(uuidString: "FB17969B-3347-4AED-8085-F968B50FA6CF")!)
-        client             = PeripheralClient(peripheral: stubCBPeripheral, characteristics: [])
+        client             = PeripheralClient(peripheral: stubCBPeripheral, characteristics: [], deconnect: { _ in })
         mockClientDelegate = MockClientDelegate()
         center             = PeripheralCenter()
         
@@ -45,10 +45,19 @@ class DisconnectionTests: XCTestCase {
     
     // MARK: - Tests
     
-    func test() {
+    func test1_centralDisconnectPeripheral() {
         let nserror = NSError(domain: "test", code: 12, userInfo: nil)
         center.central.centralManager(center.central.centralManager, didDisconnectPeripheral: stubCBPeripheral, error: nserror)
         XCTAssertTrue(mockClientDelegate.disconnectError as NSError? === nserror)
+    }
+    
+    func test2_clientDeallocates() {
+        let exp = expectation(description: "")
+        let block = {
+             _ = PeripheralClient(peripheral: self.stubCBPeripheral, characteristics: [], deconnect: { _ in exp.fulfill() })
+        }
+        block()
+        waitForExpectations(timeout: 1, handler: nil)
     }
     
 }
