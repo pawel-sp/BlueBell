@@ -6,7 +6,7 @@
 //  Copyright © 2017 Paweł Sporysz. All rights reserved.
 //
 
-protocol BLEPeripheralOperation {
+public protocol BLEPeripheralOperation {
     
     // Characteristic for which operation should wait regarding any responses (update, write)
     var responseCharacteristic: Characteristic? { get }

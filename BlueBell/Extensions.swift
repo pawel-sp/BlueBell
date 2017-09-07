@@ -10,7 +10,7 @@ import CoreBluetooth
 
 // MARK: - Models
 
-extension BlueModel {
+public extension BlueModel {
     
     var cbuuid: CBUUID {
         return CBUUID(string: uuidString)
@@ -18,7 +18,7 @@ extension BlueModel {
     
 }
 
-extension Peripheral {
+public extension Peripheral {
     
     func service(for cbService: CBService) -> Service? {
         return services.filter({ $0.uuidString == cbService.uuidString }).first
@@ -32,7 +32,7 @@ extension Peripheral {
 
 // MARK: - CoreBluetooth
 
-extension CBCharacteristic {
+public extension CBCharacteristic {
     
     var uuidString: String {
         return uuid.uuidString
@@ -40,7 +40,7 @@ extension CBCharacteristic {
     
 }
 
-extension CBService {
+public extension CBService {
     
     var uuidString: String {
         return uuid.uuidString
@@ -48,7 +48,7 @@ extension CBService {
     
 }
 
-extension CBPeripheral {
+public extension CBPeripheral {
     
     var uuidString: String {
         return identifier.uuidString

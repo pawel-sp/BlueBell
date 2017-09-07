@@ -9,11 +9,11 @@
 import Foundation
 
 // Command can have two characteristics. First one for performing operation (read, write) and second one for responses (that one inside Expectation. It is for scenario like you're performing operation on particular characteristic but there would be response from another one.
-class PeripheralCommand<ValueType>: BLEPeripheralOperation {
+public class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - Enums
     
-    indirect enum Operation {
+    public indirect enum Operation {
         
         case read(Characteristic)
         case write(ValueType, Characteristic)
@@ -22,28 +22,28 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - Structs
     
-    struct Expectation {
+    public struct Expectation {
         
         // Data   - last response from didUpdateValue
         // [Data] - all current responses
         // Bool   - should continue collecting responses or not
-        typealias Condition = (Data, [Data]) -> Bool
+        public typealias Condition = (Data, [Data]) -> Bool
         
-        let characteristic: Characteristic
-        let updateValue: Condition?
-        let writeValue: Condition?
+        public let characteristic: Characteristic
+        public let updateValue: Condition?
+        public let writeValue: Condition?
         
     }
     
     // MARK: - Properties
     
-    let operation: Operation
-    let expectation: Expectation?
-    let transformer: CharacteristicDataTransformer<ValueType>
+    public let operation: Operation
+    public let expectation: Expectation?
+    public let transformer: CharacteristicDataTransformer<ValueType>
     
     // MARK: - Init
     
-    init(operation: Operation, expectation: Expectation?, transformer: CharacteristicDataTransformer<ValueType>) {
+    public init(operation: Operation, expectation: Expectation?, transformer: CharacteristicDataTransformer<ValueType>) {
         self.operation      = operation
         self.expectation    = expectation
         self.transformer    = transformer
@@ -51,7 +51,7 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
     
     // MARK: - BLEPeripheralOperation
     
-    var responseCharacteristic: Characteristic? {
+    public var responseCharacteristic: Characteristic? {
         return expectation?.characteristic
     }
     
@@ -59,17 +59,17 @@ class PeripheralCommand<ValueType>: BLEPeripheralOperation {
 
 // MARK: - Extensions
 
-extension PeripheralCommand.Expectation {
+public extension PeripheralCommand.Expectation {
     
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return writeValue == nil && updateValue == nil
     }
     
 }
 
-extension PeripheralCommand.Operation {
+public extension PeripheralCommand.Operation {
     
-    var characteristic: Characteristic {
+    public var characteristic: Characteristic {
         switch self {
             case .read(let characteristic):
                 return characteristic

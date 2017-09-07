@@ -8,17 +8,17 @@
 
 import CoreBluetooth
 
-protocol PeripheralClientDelegate: class {
+public protocol PeripheralClientDelegate: class {
     
     func peripheralClient(_ peripheralClient: PeripheralClient, didDisconnectError: Error?)
     
 }
 
-class PeripheralClient {
+public class PeripheralClient {
     
     // MARK: - Enums
     
-    enum ClientError: Error {
+    public enum ClientError: Error {
         
         case incorrectCharacteristicForOperation(String) // it means that characteristic with UUID wasn't discovered and passed to PeripheralClient init
         case incorrectCharacteristicForExpectation(String) // it means that characteristic with UUID wasn't discovered and passed to PeripheralClient init
@@ -30,7 +30,7 @@ class PeripheralClient {
     
     // MARK: - Properties
     
-    weak var delegate: PeripheralClientDelegate?
+    public weak var delegate: PeripheralClientDelegate?
     
     let peripheral: CBPeripheral
     let characteristics: Set<CBCharacteristic>
@@ -70,7 +70,7 @@ class PeripheralClient {
     
     // MARK: - Actions
     
-    func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>? = nil) {
+    public func perform<ValueType>(command: PeripheralCommand<ValueType>, completion: ResultCompletion<ValueType>? = nil) {
         guard peripheral.state == .connected else {
             completion?(.error(ClientError.deviceNotConnected(peripheral.state)))
             return
@@ -106,7 +106,7 @@ class PeripheralClient {
         }
     }
     
-    func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {
+    public func register<ValueType>(subscription: PeripheralSubscription<ValueType>, update: @escaping ResultCompletion<ValueType>) {
         if peripheral.state != .connected {
             update(.error(ClientError.deviceNotConnected(peripheral.state)))
             return
@@ -120,7 +120,7 @@ class PeripheralClient {
         peripheral.setNotifyValue(true, for: cbCharacteristic)
     }
     
-    func unregisterSubscription(for characteristic: Characteristic) {
+    public func unregisterSubscription(for characteristic: Characteristic) {
         guard let cbCharacteristic = characteristics.first(for: characteristic) else {
             return
         }

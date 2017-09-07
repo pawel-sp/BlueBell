@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CharacteristicDataTransformerInterface {
+public protocol CharacteristicDataTransformerInterface {
     
     associatedtype ValueType
     
@@ -17,15 +17,15 @@ protocol CharacteristicDataTransformerInterface {
     
 }
 
-class CharacteristicDataTransformer<T>: CharacteristicDataTransformerInterface {
+public class CharacteristicDataTransformer<T>: CharacteristicDataTransformerInterface {
     
-    typealias ValueType = T
+    public typealias ValueType = T
     
-    func transform(valueToData: ValueType) -> Data {
+    public func transform(valueToData: ValueType) -> Data {
         fatalError("You need to override that method")
     }
     
-    func transform(dataToValue: Data) -> ValueType {
+    public func transform(dataToValue: Data) -> ValueType {
         fatalError("You need to override that method")
     }
     

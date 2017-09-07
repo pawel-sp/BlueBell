@@ -10,7 +10,7 @@ import CoreBluetooth
 
 // MARK: - Enums
 
-enum Result<Value> {
+public enum Result<Value> {
     
     case value(Value)
     case error(Error)
@@ -20,26 +20,27 @@ enum Result<Value> {
 // MARK: - Typealiases
 
 typealias ErrorCompletion               = (Error?) -> ()
-typealias ResultCompletion<Value>       = (Result<Value>)  -> ()
 typealias Completion<Value>             = (Value, Error?)  -> ()
 typealias BufferCompletion<Value>       = (Value, [Value]) -> ()
-typealias BufferResultCompletion<Value> = (Result<(Value, [Value])>) -> ()
+
+public typealias BufferResultCompletion<Value> = (Result<(Value, [Value])>) -> ()
+public typealias ResultCompletion<Value>       = (Result<Value>)  -> ()
 
 typealias DataReduce = ([Data]) -> Data
 
 // MARK: - Structs
 
-struct PeripheralInfo: Hashable, Equatable {
+public struct PeripheralInfo: Hashable, Equatable {
     
-    let peripheral: CBPeripheral
-    let advertisementData: [String : Any]
-    let rssi: NSNumber
+    public let peripheral: CBPeripheral
+    public let advertisementData: [String : Any]
+    public let rssi: NSNumber
 
-    var hashValue: Int {
+    public var hashValue: Int {
         return peripheral.hashValue
     }
     
-    static func ==(lhs: PeripheralInfo, rhs: PeripheralInfo) -> Bool {
+    public static func ==(lhs: PeripheralInfo, rhs: PeripheralInfo) -> Bool {
         return lhs.peripheral.uuidString == rhs.peripheral.uuidString
     }
     

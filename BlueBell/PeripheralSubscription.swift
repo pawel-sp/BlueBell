@@ -8,23 +8,23 @@
 
 import Foundation
 
-class PeripheralSubscription<ValueType>: BLEPeripheralOperation {
+public class PeripheralSubscription<ValueType>: BLEPeripheralOperation {
     
     // MARK: - Properties
     
-    let characteristic: Characteristic
-    let transformer: CharacteristicDataTransformer<ValueType>
+    public let characteristic: Characteristic
+    public let transformer: CharacteristicDataTransformer<ValueType>
     
     // MARK: - Init
     
-    init(characteristic: Characteristic, transformer: CharacteristicDataTransformer<ValueType>) {
+    public init(characteristic: Characteristic, transformer: CharacteristicDataTransformer<ValueType>) {
         self.characteristic = characteristic
         self.transformer    = transformer
     }
     
     // MARK: - BLEPeripheralOperation
     
-    var responseCharacteristic: Characteristic? {
+    public var responseCharacteristic: Characteristic? {
         return characteristic
     }
     
