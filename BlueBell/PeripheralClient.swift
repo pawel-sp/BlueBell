@@ -65,6 +65,7 @@ public class PeripheralClient {
     }
     
     deinit {
+        self.commandRequestQueue.reset()
         self.watchdog.stop()
     }
     
